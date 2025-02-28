@@ -1,0 +1,5 @@
+CMake Error at CMakeLists.txt:22:
+  Parse error.  Expected "(", got unquoted argument with text
+  "lib/${PROJECT_NAME}/".
+
+

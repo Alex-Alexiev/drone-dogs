@@ -1,0 +1,9 @@
+/home/jetson/ros2_ws/build/px4_autonomy_modules/CMakeFiles/install/strip.dir
+/home/jetson/ros2_ws/build/px4_autonomy_modules/CMakeFiles/install/local.dir
+/home/jetson/ros2_ws/build/px4_autonomy_modules/CMakeFiles/install.dir
+/home/jetson/ros2_ws/build/px4_autonomy_modules/CMakeFiles/list_install_components.dir
+/home/jetson/ros2_ws/build/px4_autonomy_modules/CMakeFiles/rebuild_cache.dir
+/home/jetson/ros2_ws/build/px4_autonomy_modules/CMakeFiles/edit_cache.dir
+/home/jetson/ros2_ws/build/px4_autonomy_modules/CMakeFiles/test.dir
+/home/jetson/ros2_ws/build/px4_autonomy_modules/CMakeFiles/px4_autonomy_modules_uninstall.dir
+/home/jetson/ros2_ws/build/px4_autonomy_modules/CMakeFiles/uninstall.dir

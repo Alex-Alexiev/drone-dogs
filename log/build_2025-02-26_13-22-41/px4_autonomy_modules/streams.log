@@ -1,0 +1,107 @@
+[0.036s] Invoking command in '/home/jetson/ros2_ws/build/px4_autonomy_modules': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake /home/jetson/ros2_ws/src/px4_autonomy_modules -DCMAKE_INSTALL_PREFIX=/home/jetson/ros2_ws/install/px4_autonomy_modules
+[0.229s] -- The C compiler identification is GNU 8.4.0
+[0.410s] -- The CXX compiler identification is GNU 8.4.0
+[0.426s] -- Check for working C compiler: /usr/bin/cc
+[0.650s] -- Check for working C compiler: /usr/bin/cc -- works
+[0.653s] -- Detecting C compiler ABI info
+[0.883s] -- Detecting C compiler ABI info - done
+[0.929s] -- Detecting C compile features
+[0.930s] -- Detecting C compile features - done
+[0.940s] -- Check for working CXX compiler: /usr/bin/c++
+[1.196s] -- Check for working CXX compiler: /usr/bin/c++ -- works
+[1.200s] -- Detecting CXX compiler ABI info
+[1.460s] -- Detecting CXX compiler ABI info - done
+[1.509s] -- Detecting CXX compile features
+[1.511s] -- Detecting CXX compile features - done
+[1.524s] -- Found ament_cmake: 0.9.12 (/opt/ros/foxy/share/ament_cmake/cmake)
+[1.623s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+[1.623s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[2.603s] -- Found rclcpp: 2.4.3 (/opt/ros/foxy/share/rclcpp/cmake)
+[2.822s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[2.859s] -- Found rosidl_adapter: 1.3.1 (/opt/ros/foxy/share/rosidl_adapter/cmake)
+[3.213s] -- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "1.1.1f")  
+[3.325s] -- Found FastRTPS: /opt/ros/foxy/include  
+[3.689s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[3.947s] -- Found rmw_implementation_cmake: 1.0.4 (/opt/ros/foxy/share/rmw_implementation_cmake/cmake)
+[3.953s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[3.957s] -- Looking for pthread.h
+[4.193s] -- Looking for pthread.h - found
+[4.193s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[4.432s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+[4.432s] -- Looking for pthread_create in pthreads
+[4.624s] -- Looking for pthread_create in pthreads - not found
+[4.624s] -- Looking for pthread_create in pthread
+[4.857s] -- Looking for pthread_create in pthread - found
+[4.860s] -- Found Threads: TRUE  
+[5.553s] -- Found rclpy: 1.0.13 (/opt/ros/foxy/share/rclpy/cmake)
+[5.562s] -- Found nav_msgs: 2.0.5 (/opt/ros/foxy/share/nav_msgs/cmake)
+[6.082s] -- Found sensor_msgs: 2.0.5 (/opt/ros/foxy/share/sensor_msgs/cmake)
+[6.403s] -- Found mavros: 2.4.0 (/opt/ros/foxy/share/mavros/cmake)
+[6.441s] -- Found mavros_extras: 2.4.0 (/opt/ros/foxy/share/mavros_extras/cmake)
+[6.457s] -- Found ament_lint_auto: 0.9.8 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+[6.820s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[6.821s] -- Configured cppcheck include dirs: 
+[6.821s] -- Configured cppcheck exclude dirs and/or files: 
+[6.830s] -- Added test 'flake8' to check Python code syntax and style conventions
+[6.846s] -- Added test 'lint_cmake' to check CMake code style
+[6.855s] -- Added test 'pep257' to check Python code against some of the style conventions in PEP 257
+[6.914s] -- Added test 'uncrustify' to check C / C++ code style
+[6.915s] -- Configured uncrustify additional arguments: 
+[6.924s] -- Added test 'xmllint' to check XML markup files
+[6.938s] -- Configuring done
+[6.947s] -- Generating done
+[6.952s] -- Build files have been written to: /home/jetson/ros2_ws/build/px4_autonomy_modules
+[6.983s] Invoked command in '/home/jetson/ros2_ws/build/px4_autonomy_modules' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake /home/jetson/ros2_ws/src/px4_autonomy_modules -DCMAKE_INSTALL_PREFIX=/home/jetson/ros2_ws/install/px4_autonomy_modules
+[6.994s] Invoking command in '/home/jetson/ros2_ws/build/px4_autonomy_modules': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/ros2_ws/build/px4_autonomy_modules -- -j4 -l4
+[7.129s] Invoked command in '/home/jetson/ros2_ws/build/px4_autonomy_modules' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/ros2_ws/build/px4_autonomy_modules -- -j4 -l4
+[7.237s] Invoking command in '/home/jetson/ros2_ws/build/px4_autonomy_modules': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/ros2_ws/build/px4_autonomy_modules
+[7.265s] -- Install configuration: ""
+[7.266s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/lib/px4_autonomy_modules/pose_relay_node.py
+[7.266s] -- Installing: /home/jetson/ros2_ws/install/px4_autonomy_modules/lib/px4_autonomy_modules/fe_2.py
+[7.267s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/lib/px4_autonomy_modules/fake_vicon.py
+[7.267s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch
+[7.268s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log
+[7.268s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/COLCON_IGNORE
+[7.269s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/build_2025-02-19_12-16-55
+[7.270s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/build_2025-02-19_12-16-55/logger_all.log
+[7.270s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/build_2025-02-19_12-16-55/events.log
+[7.270s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/latest
+[7.271s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/build_2025-02-19_12-12-14
+[7.272s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/build_2025-02-19_12-12-14/logger_all.log
+[7.272s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/build_2025-02-19_12-12-14/events.log
+[7.273s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/latest_build
+[7.273s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install
+[7.273s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/COLCON_IGNORE
+[7.274s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/local_setup.bash
+[7.274s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/local_setup.ps1
+[7.275s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/local_setup.zsh
+[7.275s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/_local_setup_util_ps1.py
+[7.275s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/local_setup.sh
+[7.276s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/setup.ps1
+[7.276s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/setup.bash
+[7.276s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/setup.zsh
+[7.277s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/_local_setup_util_sh.py
+[7.277s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/setup.sh
+[7.278s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/.colcon_install_layout
+[7.278s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/px4_config.yaml
+[7.278s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/build
+[7.279s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/build/COLCON_IGNORE
+[7.279s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/build/.built_by
+[7.280s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/px4_pluginlists.yaml
+[7.280s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/mavros.launch.py
+[7.280s] -- Installing: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/ament_index/resource_index/package_run_dependencies/px4_autonomy_modules
+[7.281s] -- Installing: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/ament_index/resource_index/parent_prefix_path/px4_autonomy_modules
+[7.282s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/environment/ament_prefix_path.sh
+[7.282s] -- Installing: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/environment/ament_prefix_path.dsv
+[7.284s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/environment/path.sh
+[7.285s] -- Installing: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/environment/path.dsv
+[7.286s] -- Installing: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/local_setup.bash
+[7.287s] -- Installing: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/local_setup.sh
+[7.287s] -- Installing: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/local_setup.zsh
+[7.288s] -- Installing: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/local_setup.dsv
+[7.288s] -- Installing: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/package.dsv
+[7.289s] -- Installing: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/ament_index/resource_index/packages/px4_autonomy_modules
+[7.289s] -- Installing: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/cmake/px4_autonomy_modulesConfig.cmake
+[7.290s] -- Installing: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/cmake/px4_autonomy_modulesConfig-version.cmake
+[7.290s] -- Up-to-date: /home/jetson/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/package.xml
+[7.291s] Invoked command in '/home/jetson/ros2_ws/build/px4_autonomy_modules' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/ros2_ws/build/px4_autonomy_modules

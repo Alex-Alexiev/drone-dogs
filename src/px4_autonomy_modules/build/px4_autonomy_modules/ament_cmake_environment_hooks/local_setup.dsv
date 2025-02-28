@@ -1,0 +1,2 @@
+source;share/px4_autonomy_modules/environment/ament_prefix_path.sh
+source;share/px4_autonomy_modules/environment/path.sh

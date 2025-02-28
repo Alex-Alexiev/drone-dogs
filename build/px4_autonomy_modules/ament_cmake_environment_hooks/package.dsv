@@ -1,0 +1,4 @@
+source;share/px4_autonomy_modules/local_setup.bash
+source;share/px4_autonomy_modules/local_setup.dsv
+source;share/px4_autonomy_modules/local_setup.sh
+source;share/px4_autonomy_modules/local_setup.zsh

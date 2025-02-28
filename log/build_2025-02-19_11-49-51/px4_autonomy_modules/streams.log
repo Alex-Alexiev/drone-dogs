@@ -1,0 +1,131 @@
+[0.052s] Invoking command in '/home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/build/px4_autonomy_modules': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/src/px4_autonomy_modules -DCMAKE_INSTALL_PREFIX=/home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules
+[0.735s] -- The C compiler identification is GNU 8.4.0
+[1.199s] -- The CXX compiler identification is GNU 8.4.0
+[1.231s] -- Check for working C compiler: /usr/bin/cc
+[1.475s] -- Check for working C compiler: /usr/bin/cc -- works
+[1.480s] -- Detecting C compiler ABI info
+[1.714s] -- Detecting C compiler ABI info - done
+[1.764s] -- Detecting C compile features
+[1.766s] -- Detecting C compile features - done
+[1.778s] -- Check for working CXX compiler: /usr/bin/c++
+[2.046s] -- Check for working CXX compiler: /usr/bin/c++ -- works
+[2.050s] -- Detecting CXX compiler ABI info
+[2.317s] -- Detecting CXX compiler ABI info - done
+[2.367s] -- Detecting CXX compile features
+[2.369s] -- Detecting CXX compile features - done
+[2.400s] -- Found ament_cmake: 0.9.12 (/opt/ros/foxy/share/ament_cmake/cmake)
+[2.517s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+[2.517s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[3.586s] -- Found rclcpp: 2.4.3 (/opt/ros/foxy/share/rclcpp/cmake)
+[3.865s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[3.912s] -- Found rosidl_adapter: 1.3.1 (/opt/ros/foxy/share/rosidl_adapter/cmake)
+[4.333s] -- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "1.1.1f")  
+[4.452s] -- Found FastRTPS: /opt/ros/foxy/include  
+[4.854s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[5.159s] -- Found rmw_implementation_cmake: 1.0.4 (/opt/ros/foxy/share/rmw_implementation_cmake/cmake)
+[5.168s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[5.174s] -- Looking for pthread.h
+[5.452s] -- Looking for pthread.h - found
+[5.453s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[5.703s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+[5.704s] -- Looking for pthread_create in pthreads
+[5.904s] -- Looking for pthread_create in pthreads - not found
+[5.905s] -- Looking for pthread_create in pthread
+[6.146s] -- Looking for pthread_create in pthread - found
+[6.150s] -- Found Threads: TRUE  
+[6.927s] -- Found rclpy: 1.0.13 (/opt/ros/foxy/share/rclpy/cmake)
+[6.937s] -- Found nav_msgs: 2.0.5 (/opt/ros/foxy/share/nav_msgs/cmake)
+[7.488s] -- Found sensor_msgs: 2.0.5 (/opt/ros/foxy/share/sensor_msgs/cmake)
+[7.825s] -- Found mavros: 2.4.0 (/opt/ros/foxy/share/mavros/cmake)
+[7.875s] -- Found mavros_extras: 2.4.0 (/opt/ros/foxy/share/mavros_extras/cmake)
+[7.895s] -- Found ament_lint_auto: 0.9.8 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+[8.320s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[8.320s] -- Configured cppcheck include dirs: 
+[8.321s] -- Configured cppcheck exclude dirs and/or files: 
+[8.333s] -- Added test 'flake8' to check Python code syntax and style conventions
+[8.352s] -- Added test 'lint_cmake' to check CMake code style
+[8.364s] -- Added test 'pep257' to check Python code against some of the style conventions in PEP 257
+[8.441s] -- Added test 'uncrustify' to check C / C++ code style
+[8.442s] -- Configured uncrustify additional arguments: 
+[8.453s] -- Added test 'xmllint' to check XML markup files
+[8.470s] -- Configuring done
+[8.481s] -- Generating done
+[8.487s] -- Build files have been written to: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/build/px4_autonomy_modules
+[8.519s] Invoked command in '/home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/build/px4_autonomy_modules' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/src/px4_autonomy_modules -DCMAKE_INSTALL_PREFIX=/home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules
+[8.525s] Invoking command in '/home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/build/px4_autonomy_modules': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/build/px4_autonomy_modules -- -j4 -l4
+[8.626s] -- Found ament_cmake: 0.9.12 (/opt/ros/foxy/share/ament_cmake/cmake)
+[8.714s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[9.629s] -- Found rclcpp: 2.4.3 (/opt/ros/foxy/share/rclcpp/cmake)
+[9.776s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[9.792s] -- Found rosidl_adapter: 1.3.1 (/opt/ros/foxy/share/rosidl_adapter/cmake)
+[10.322s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[10.532s] -- Found rmw_implementation_cmake: 1.0.4 (/opt/ros/foxy/share/rmw_implementation_cmake/cmake)
+[10.538s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[11.179s] -- Found rclpy: 1.0.13 (/opt/ros/foxy/share/rclpy/cmake)
+[11.179s] -- Found nav_msgs: 2.0.5 (/opt/ros/foxy/share/nav_msgs/cmake)
+[11.688s] -- Found sensor_msgs: 2.0.5 (/opt/ros/foxy/share/sensor_msgs/cmake)
+[12.005s] -- Found mavros: 2.4.0 (/opt/ros/foxy/share/mavros/cmake)
+[12.020s] -- Found mavros_extras: 2.4.0 (/opt/ros/foxy/share/mavros_extras/cmake)
+[12.028s] -- Found ament_lint_auto: 0.9.8 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+[12.359s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[12.359s] -- Configured cppcheck include dirs: 
+[12.359s] -- Configured cppcheck exclude dirs and/or files: 
+[12.369s] -- Added test 'flake8' to check Python code syntax and style conventions
+[12.387s] -- Added test 'lint_cmake' to check CMake code style
+[12.398s] -- Added test 'pep257' to check Python code against some of the style conventions in PEP 257
+[12.466s] -- Added test 'uncrustify' to check C / C++ code style
+[12.466s] -- Configured uncrustify additional arguments: 
+[12.476s] -- Added test 'xmllint' to check XML markup files
+[12.488s] -- Configuring done
+[12.498s] -- Generating done
+[12.504s] -- Build files have been written to: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/build/px4_autonomy_modules
+[12.589s] Invoked command in '/home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/build/px4_autonomy_modules' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/build/px4_autonomy_modules -- -j4 -l4
+[12.704s] Invoking command in '/home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/build/px4_autonomy_modules': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/build/px4_autonomy_modules
+[12.734s] -- Install configuration: ""
+[12.735s] -- Installing: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/lib/px4_autonomy_modules/pose_relay_node.py
+[12.736s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch
+[12.737s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log
+[12.737s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/COLCON_IGNORE
+[12.738s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/build_2025-02-19_12-16-55
+[12.738s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/build_2025-02-19_12-16-55/logger_all.log
+[12.739s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/build_2025-02-19_12-16-55/events.log
+[12.739s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/latest
+[12.740s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/build_2025-02-19_12-12-14
+[12.740s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/build_2025-02-19_12-12-14/logger_all.log
+[12.741s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/build_2025-02-19_12-12-14/events.log
+[12.741s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/log/latest_build
+[12.741s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install
+[12.742s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/COLCON_IGNORE
+[12.742s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/local_setup.bash
+[12.743s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/local_setup.ps1
+[12.743s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/local_setup.zsh
+[12.743s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/_local_setup_util_ps1.py
+[12.744s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/local_setup.sh
+[12.744s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/setup.ps1
+[12.744s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/setup.bash
+[12.745s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/setup.zsh
+[12.745s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/_local_setup_util_sh.py
+[12.746s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/setup.sh
+[12.746s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/install/.colcon_install_layout
+[12.746s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/px4_config.yaml
+[12.747s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/build
+[12.747s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/build/COLCON_IGNORE
+[12.748s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/build/.built_by
+[12.748s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/px4_pluginlists.yaml
+[12.749s] -- Installing: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/launch/mavros.launch.py
+[12.749s] -- Installing: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/ament_index/resource_index/package_run_dependencies/px4_autonomy_modules
+[12.749s] -- Installing: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/ament_index/resource_index/parent_prefix_path/px4_autonomy_modules
+[12.750s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/environment/ament_prefix_path.sh
+[12.750s] -- Installing: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/environment/ament_prefix_path.dsv
+[12.751s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/environment/path.sh
+[12.751s] -- Installing: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/environment/path.dsv
+[12.751s] -- Installing: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/local_setup.bash
+[12.752s] -- Installing: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/local_setup.sh
+[12.752s] -- Installing: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/local_setup.zsh
+[12.752s] -- Installing: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/local_setup.dsv
+[12.753s] -- Installing: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/package.dsv
+[12.755s] -- Installing: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/ament_index/resource_index/packages/px4_autonomy_modules
+[12.757s] -- Installing: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/cmake/px4_autonomy_modulesConfig.cmake
+[12.757s] -- Installing: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/cmake/px4_autonomy_modulesConfig-version.cmake
+[12.758s] -- Up-to-date: /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules/share/px4_autonomy_modules/package.xml
+[12.759s] Invoked command in '/home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/build/px4_autonomy_modules' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/build/px4_autonomy_modules

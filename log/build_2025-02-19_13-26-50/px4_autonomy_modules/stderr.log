@@ -1,0 +1,4 @@
+CMake Error at CMakeLists.txt:18 (install):
+  install DIRECTORY does not allow "FILE_PERMISSIONS" after PATTERN or REGEX.
+
+

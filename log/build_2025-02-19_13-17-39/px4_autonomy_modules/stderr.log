@@ -1,0 +1,6 @@
+CMake Error at cmake_install.cmake:41 (file):
+  file INSTALL cannot find
+  "/home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/src/px4_autonomy_modules/nodes/*":
+  No such file or directory.
+
+

@@ -2,10 +2,13 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Pose, PoseStamped
+from std_msgs.msg import Float64
 
 class PoseRelayNode(Node):
     def __init__(self):
         super().__init__('pose_relay_node')
+        self.relay = False 
+        
         
         # Subscription to the input topic
         self.subscription = self.create_subscription(
@@ -27,9 +30,10 @@ class PoseRelayNode(Node):
         msg.header.frame_id = "map"
         # self.get_logger().info(f"Received Pose - Position: ({pose.position.x}, {pose.position.y}, {pose.position.z}) "
         #                        f"Orientation: ({pose.orientation.x}, {pose.orientation.y}, {pose.orientation.z}, {pose.orientation.w})")
+        self.get_logger().info(f"Vicon pose: x:{pose.position.x}, y:{pose.position.y}, z:{pose.position.z}")
         
-        
-        self.publisher.publish(msg)
+        if self.relay:
+            self.publisher.publish(msg)
         # self.get_logger().info(f"Published Pose to output_pose")
 
 def main(args=None):

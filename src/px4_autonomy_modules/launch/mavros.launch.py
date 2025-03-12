@@ -85,6 +85,13 @@ def generate_launch_description():
             parameters=[]  # Add any parameters if needed
         ),
         Node(
+            package="px4_autonomy_modules",  # Replace with the actual package name containing your script
+            executable="pose_relay_node.py",
+            name="pose_relay_node",
+#            output="screen",
+            parameters=[]  # Add any parameters if needed
+        ),
+        Node(
             package="px4_autonomy_modules",
             executable="fe_2.py",
             name=f"rob498_drone_07", #{LaunchConfiguration('drone_num')}",

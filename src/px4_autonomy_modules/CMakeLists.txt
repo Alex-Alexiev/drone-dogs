@@ -30,6 +30,11 @@ install (
   DESTINATION lib/${PROJECT_NAME}/
 )
 
+install (
+  PROGRAMS nodes/pose_relay_node.py
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
 install(
   DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}

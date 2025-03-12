@@ -27,14 +27,14 @@ class CommNode(Node):
         
         # Subscribers and Publishers
         self.mavros_pose_sub = self.create_subscription(
-            PoseStamped,
-            '/mavros/vision_pose/pose',
+            PoseStamped, # TODO: This might be Odom for second part
+            '/mavros/vision_pose/pose', # TODO: Change this to mavros/local_position/odom for second part of fe_3
             self.callback_mavros_pose,
             rclpy.qos.qos_profile_system_default
         )
         self.sub_waypoints = self.create_subscription(
             PoseArray, 
-            'rob498_drone_07/comm/waypoints', 
+            f'rob498_drone_{drone_num}/comm/waypoints', 
             self.callback_waypoints, 
             10
         )

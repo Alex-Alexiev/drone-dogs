@@ -8,7 +8,7 @@ class PoseRelayNode(Node):
     def __init__(self):
         super().__init__('pose_relay_node')
         self.relay = False 
-        
+        self.vicon_to_cube_transform = [-0.103, 0.0, 0.0]
         
         # Subscription to the input topic
         self.subscription = self.create_subscription(
@@ -26,14 +26,21 @@ class PoseRelayNode(Node):
         )
 
     def listener_callback(self, msg):
-        pose = msg.pose
-        msg.header.frame_id = "map"
+        pose = PoseStamped()
+        pose.pose = msg.pose
+        pose.header.stamp = msg.header.stamp
+        pose.header.frame_id = "map"
         # self.get_logger().info(f"Received Pose - Position: ({pose.position.x}, {pose.position.y}, {pose.position.z}) "
         #                        f"Orientation: ({pose.orientation.x}, {pose.orientation.y}, {pose.orientation.z}, {pose.orientation.w})")
-        self.get_logger().info(f"Vicon pose: x:{pose.position.x}, y:{pose.position.y}, z:{pose.position.z}")
         
         if self.relay:
-            self.publisher.publish(msg)
+            # Apply transform to the pose
+            pose.pose.position.x += self.vicon_to_cube_transform[0]
+            pose.pose.position.y += self.vicon_to_cube_transform[1]
+            pose.pose.position.z += self.vicon_to_cube_transform[2]
+            
+            self.get_logger().info(f"Vicon pose: x:{pose.pose.position.x}, y:{pose.pose.position.y}, z:{pose.pose.position.z}")
+            self.publisher.publish(pose)
         # self.get_logger().info(f"Published Pose to output_pose")
 
 def main(args=None):

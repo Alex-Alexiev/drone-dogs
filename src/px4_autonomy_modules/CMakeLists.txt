@@ -21,7 +21,7 @@ install(
 )
 
 install (
-  PROGRAMS nodes/fe_2.py
+  PROGRAMS nodes/fe_3.py
   DESTINATION lib/${PROJECT_NAME}/
 )
 

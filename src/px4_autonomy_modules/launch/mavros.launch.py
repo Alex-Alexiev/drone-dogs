@@ -93,7 +93,7 @@ def generate_launch_description():
         ),
         Node(
             package="px4_autonomy_modules",
-            executable="fe_2.py",
+            executable="fe_3.py",
             name=f"rob498_drone_07", #{LaunchConfiguration('drone_num')}",
             parameters=[
                 {"drone_num" : LaunchConfiguration('drone_num')}

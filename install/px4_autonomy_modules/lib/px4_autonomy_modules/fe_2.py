@@ -4,7 +4,10 @@ from rclpy.node import Node
 from std_srvs.srv import Empty, Trigger
 import sys
 from geometry_msgs.msg import PoseStamped
+from std_msgs.msg import Float64 
 from copy import deepcopy 
+
+
 
 class CommNode(Node):
     # Callback handlers
@@ -16,12 +19,12 @@ class CommNode(Node):
         self.initial_pose = deepcopy(self.cur_pose)
         
         starting_pose = deepcopy(self.cur_pose)
-        starting_pose.pose.position.z = 1.5-0.55
+        starting_pose.pose.position.z = 1.5
         starting_pose.pose.position.y = 0.0
         starting_pose.pose.position.x = 0.0
         self.desired_pose = deepcopy(starting_pose)
         
-
+    
     def handle_test(self):
         self.get_logger().info('Test Requested. Your drone should perform the required tasks. Recording starts now.')
 
@@ -55,11 +58,14 @@ class CommNode(Node):
         self.handle_abort()
         return response
     
-    def listener_callback(self, msg):
+    def cube_pose(self, msg):
         self.cur_pose = msg
         pose = msg.pose
-        self.get_logger().info(f"Received Pose - Position: ({pose.position.x}, {pose.position.y}, {pose.position.z}) "
-                               f"Orientation: ({pose.orientation.x}, {pose.orientation.y}, {pose.orientation.z}, {pose.orientation.w})")
+        # self.get_logger().info(f"Received Pose - Position: ({pose.position.x}, {pose.position.y}, {pose.position.z}) "
+        #                        f"Orientation: ({pose.orientation.x}, {pose.orientation.y}, {pose.orientation.z}, {pose.orientation.w})")
+    
+    def vicon_callback(self, msg):
+        pass
         
         
     def pose_publisher_callback(self):
@@ -71,25 +77,35 @@ class CommNode(Node):
         self.publisher.publish(self.desired_pose)
         
         pose = self.desired_pose.pose
-        self.get_logger().info(f"Desired Pose - Position: ({pose.position.x}, {pose.position.y}, {pose.position.z}) "
-                               f"Orientation: ({pose.orientation.x}, {pose.orientation.y}, {pose.orientation.z}, {pose.orientation.w})")
+        # self.get_logger().info(f"Desired Pose - Position: ({pose.position.x}, {pose.position.y}, {pose.position.z}) "
+        #                        f"Orientation: ({pose.orientation.x}, {pose.orientation.y}, {pose.orientation.z}, {pose.orientation.w})")
+        self.get_logger().info(f"Desired pose: x:{pose.position.x}, y:{pose.position.y}, z:{pose.position.z}")
         
         
-
     def __init__(self):
-        super().__init__(f'rob498_drone_07')
+        super().__init__(f'rob498_drone_7')
         drone_num = '7'
         self.initial_pose = None
         self.cur_pose = None
         self.desired_pose = None
+        self.desired_pose_offset = None 
         self.get_logger().info(f'Drone Number: {drone_num}')
         
-        self.subscription = self.create_subscription(
+        
+        
+        self.cube_pose = self.create_subscription(
             PoseStamped,
             '/mavros/vision_pose/pose',
-            self.listener_callback,
+            self.cube_pose,
             rclpy.qos.qos_profile_system_default
         )
+        self.vicon_sub = self.create_subscription(
+            PoseStamped,
+            '/vicon/ROB498_Drone/ROB498_Drone',
+            self.vicon_callback,
+            10
+        )
+
         self.publisher = self.create_publisher(PoseStamped, 'mavros/setpoint_position/local', 10)
         self.srv_launch = self.create_service(Trigger, f'rob498_drone_{drone_num}/comm/launch', self.callback_launch)
         self.srv_test = self.create_service(Trigger, f'rob498_drone_{drone_num}/comm/test', self.callback_test)

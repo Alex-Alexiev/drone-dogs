@@ -50,6 +50,10 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/px4_autonomy_modules" TYPE PROGRAM FILES "/home/jetson/ros2_ws/src/px4_autonomy_modules/nodes/pose_relay_node.py")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/px4_autonomy_modules" TYPE DIRECTORY FILES "/home/jetson/ros2_ws/src/px4_autonomy_modules/launch")
 endif()
 

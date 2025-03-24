@@ -15,7 +15,7 @@
       - 'sys_*'
       - imu
       - onboard_computer_status
-      - distance_sensor
+      # - distance_sensor
       - local_position
       - command
       - companion_process_status

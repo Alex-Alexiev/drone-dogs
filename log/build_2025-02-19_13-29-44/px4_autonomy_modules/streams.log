@@ -1,8 +1,0 @@
-[0.040s] Invoking command in '/home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/build/px4_autonomy_modules': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/src/px4_autonomy_modules -DCMAKE_INSTALL_PREFIX=/home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules
-[0.082s] CMake Error at CMakeLists.txt:22:
-[0.083s]   Parse error.  Expected "(", got unquoted argument with text
-[0.084s]   "lib/${PROJECT_NAME}/".
-[0.085s] 
-[0.089s] 
-[0.090s] -- Configuring incomplete, errors occurred!
-[0.091s] Invoked command in '/home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/build/px4_autonomy_modules' returned '1': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/foxy /usr/bin/cmake /home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/src/px4_autonomy_modules -DCMAKE_INSTALL_PREFIX=/home/jetson/dogs/ROB498-flight/resources/code/ros2_ws/install/px4_autonomy_modules

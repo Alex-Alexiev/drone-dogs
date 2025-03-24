@@ -1,6 +1,6 @@
 
 rm -rf build 
-colcon build 
+colcon build --packages-ignore OpenCV pangolin ORB_SLAM3
 source install/setup.bash
 ros2 launch px4_autonomy_modules mavros.launch.py
 
@@ -13,3 +13,5 @@ ros2 launch px4_autonomy_modules mavros.launch.py
 # ros2 topic pub -1 /offsets/x std_msgs/msg/Float64 "{data: 0.1}"
 # ros2 topic pub -1 /offsets/y std_msgs/msg/Float64 "{data: 0.1}"
 # ros2 topic pub -1 /offsets/z std_msgs/msg/Float64 "{data: 0.1}"
+
+# ros2 bag record -a

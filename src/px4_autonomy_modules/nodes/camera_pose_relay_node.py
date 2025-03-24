@@ -29,6 +29,7 @@ class CameraPoseRelayNode(Node):
         relayed_msg = PoseStamped()
         relayed_msg.header = msg.header
         relayed_msg.pose = msg.pose.pose
+        relayed_msg.header.frame_id = "map"
         # self.get_logger().info(f"Received Pose - Position: ({pose.position.x}, {pose.position.y}, {pose.position.z}) "
         #                        f"Orientation: ({pose.orientation.x}, {pose.orientation.y}, {pose.orientation.z}, {pose.orientation.w})")
         

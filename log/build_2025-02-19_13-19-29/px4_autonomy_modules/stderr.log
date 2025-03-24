@@ -1,4 +1,0 @@
-CMake Error at CMakeLists.txt:18 (install):
-  install DIRECTORY given unknown argument "FILES_MATCHING_PATTERN".
-
-

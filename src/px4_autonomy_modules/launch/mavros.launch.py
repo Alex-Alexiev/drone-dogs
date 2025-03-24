@@ -91,6 +91,13 @@ def generate_launch_description():
 #            output="screen",
             parameters=[]  # Add any parameters if needed
         ),
+#         Node(
+#             package="px4_autonomy_modules",  # Replace with the actual package name containing your script
+#             executable="IMX219_camera_rebulisher.py",
+#             name="camera_rebulisher_node",
+# #            output="screen",
+#             parameters=[]  # Add any parameters if needed
+#         ),
         Node(
             package="px4_autonomy_modules",
             executable="fe_3.py",

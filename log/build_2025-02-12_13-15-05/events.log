@@ -1,3 +1,0 @@
-[0.000000] (-) TimerEvent: {}
-[0.001360] (-) JobUnselected: {'identifier': 'px4_autonomy_modules'}
-[0.002267] (-) EventReactorShutdown: {}

@@ -7,7 +7,7 @@ from std_msgs.msg import Float64
 class PoseRelayNode(Node):
     def __init__(self):
         super().__init__('pose_relay_node')
-        self.relay = False 
+        self.relay = True 
         self.vicon_to_cube_transform = [-0.103, 0.0, 0.0]
         
         # Subscription to the input topic
@@ -21,7 +21,7 @@ class PoseRelayNode(Node):
         # Publisher to the output topic
         self.publisher = self.create_publisher(
             PoseStamped,
-            '/mavros/vision_pose/pose',
+            '/vicon_pose/pose', # '/mavros/vision_pose/pose',
             10
         )
 
@@ -39,7 +39,7 @@ class PoseRelayNode(Node):
             pose.pose.position.y += self.vicon_to_cube_transform[1]
             pose.pose.position.z += self.vicon_to_cube_transform[2]
             
-            self.get_logger().info(f"Vicon pose: x:{pose.pose.position.x}, y:{pose.pose.position.y}, z:{pose.pose.position.z}")
+            # self.get_logger().info(f"Vicon pose: x:{pose.pose.position.x}, y:{pose.pose.position.y}, z:{pose.pose.position.z}")
             self.publisher.publish(pose)
         # self.get_logger().info(f"Published Pose to output_pose")
 

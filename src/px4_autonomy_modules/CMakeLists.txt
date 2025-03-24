@@ -35,6 +35,11 @@ install (
   DESTINATION lib/${PROJECT_NAME}/
 )
 
+install (
+  PROGRAMS nodes/tf2_frame_publisher.py
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
 install(
   DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}

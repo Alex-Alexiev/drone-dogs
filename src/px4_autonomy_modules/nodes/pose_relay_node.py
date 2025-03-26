@@ -21,7 +21,7 @@ class PoseRelayNode(Node):
         # Publisher to the output topic
         self.publisher = self.create_publisher(
             PoseStamped,
-            '/vicon_pose/pose', # '/mavros/vision_pose/pose',
+            '/mavros/vision_pose/pose',
             10
         )
 

@@ -77,13 +77,13 @@ def generate_launch_description():
                 LaunchConfiguration("config_yaml")
             ]
         ),
-        Node(
-            package="px4_autonomy_modules",  # Replace with the actual package name containing your script
-            executable="camera_pose_relay_node.py",
-            name="camera_pose_relay_node",
-#            output="screen",
-            parameters=[]  # Add any parameters if needed
-        ),
+#         Node(
+#             package="px4_autonomy_modules",  # Replace with the actual package name containing your script
+#             executable="camera_pose_relay_node.py",
+#             name="camera_pose_relay_node",
+# #            output="screen",
+#             parameters=[]  # Add any parameters if needed
+#         ),
         Node(
             package="px4_autonomy_modules",  # Replace with the actual package name containing your script
             executable="pose_relay_node.py",

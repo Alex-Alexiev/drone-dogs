@@ -26,12 +26,22 @@ install (
 )
 
 install (
+  PROGRAMS nodes/teleop.py
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
+install (
   PROGRAMS nodes/camera_pose_relay_node.py
   DESTINATION lib/${PROJECT_NAME}/
 )
 
 install (
   PROGRAMS nodes/pose_relay_node.py
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
+install (
+  PROGRAMS nodes/IMX219_camera_republisher.py
   DESTINATION lib/${PROJECT_NAME}/
 )
 

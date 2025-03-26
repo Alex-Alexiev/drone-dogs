@@ -1,6 +1,6 @@
 
 rm -rf build 
-colcon build --packages-ignore OpenCV pangolin ORB_SLAM3
+colcon build --packages-select px4_autonomy_modules
 source install/setup.bash
 ros2 launch px4_autonomy_modules mavros.launch.py
 

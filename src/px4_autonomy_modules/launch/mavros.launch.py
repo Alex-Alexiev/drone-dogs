@@ -105,6 +105,16 @@ def generate_launch_description():
             parameters=[
                 {"drone_num" : LaunchConfiguration('drone_num')}
             ]
-
-        )
+        ),
+        Node(
+            package="px4_autonomy_modules",
+            executable="tf2_frame_publisher.py",
+            name=f"tf2_frame_publisher",
+            parameters=[]
+        ),
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            arguments = ['0.0102', '0', '0.1064', '0', '90', '0', 'base_link', 'odom_frame'] # Realsense camera
+        ),
     ])

@@ -41,7 +41,7 @@ install (
 )
 
 install (
-  PROGRAMS nodes/IMX219_camera_republisher.py
+  PROGRAMS nodes/tf2_frame_publisher.py
   DESTINATION lib/${PROJECT_NAME}/
 )
 

@@ -45,6 +45,27 @@ install (
   DESTINATION lib/${PROJECT_NAME}/
 )
 
+
+install (
+  PROGRAMS nodes/image_saver.py
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
+install (
+  PROGRAMS nodes/fake_vicon.py
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
+install (
+  PROGRAMS nodes/fake_drone.py
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
+install (
+  PROGRAMS nodes/car_tracker.py
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
 install(
   DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}

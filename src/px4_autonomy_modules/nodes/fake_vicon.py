@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import Pose, PoseStamped
+from geometry_msgs.msg import PoseStamped
+from nav_msgs.msg import Odometry
 
 class FakeVicon(Node):
     def __init__(self):
@@ -14,16 +15,22 @@ class FakeVicon(Node):
             10
         )
         
-        publish_freq = 20 
-        self.timer = self.create_timer(1 / publish_freq, self.publish_callback)
+        # Subscriber to the MAVROS odometry topic
+        self.mavros_pose_sub = self.create_subscription(
+            Odometry,
+            'mavros/local_position/odom', 
+            self.callback_mavros_pose,
+            rclpy.qos.qos_profile_system_default
+        )
 
-    def publish_callback(self):
+    def callback_mavros_pose(self, msg: Odometry):
+        # Convert Odometry to PoseStamped
         pose_stamped = PoseStamped()
+        pose_stamped.header = msg.header
+        pose_stamped.pose = msg.pose.pose
         
-        pose_stamped.header.stamp = self.get_clock().now().to_msg()
-        
+        # Publish the PoseStamped message
         self.publisher.publish(pose_stamped)
-        
 
 def main(args=None):
     rclpy.init(args=args)

@@ -62,6 +62,11 @@ install (
 )
 
 install (
+  PROGRAMS nodes/text_marker_publisher.py
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
+install (
   PROGRAMS nodes/car_tracker.py
   DESTINATION lib/${PROJECT_NAME}/
 )

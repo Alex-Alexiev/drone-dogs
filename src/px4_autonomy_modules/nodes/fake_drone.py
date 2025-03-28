@@ -1,72 +1,116 @@
 #!/usr/bin/env python3
+
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import PoseStamped, TwistStamped
 from nav_msgs.msg import Odometry
-import threading
-import time
-import keyboard
+from rclpy.time import Time
+import math
 
 class FakeDrone(Node):
     def __init__(self):
         super().__init__('fake_drone')
         
-        # Publisher to the drone topic
+        # Subscriber to the /mavros/setpoint_position/local topic
+        self.pose_subscription = self.create_subscription(
+            PoseStamped,
+            '/mavros/setpoint_position/local',
+            self.pose_callback,
+            rclpy.qos.qos_profile_system_default
+        )
+        
+        # Publisher to the mavros/local_position/odom topic
         self.publisher = self.create_publisher(
             Odometry,
             'mavros/local_position/odom',
             rclpy.qos.qos_profile_system_default
         )
         
-        # Initialize position
-        self.x = 0.0
-        self.y = 0.0
-        self.z = 0.0
+        self.current_pose = PoseStamped()
+        self.target_pose = None
+        self.last_update_time = None
+        self.speed = 1.0  # Speed of the drone in meters per second
 
-        # Start a thread to listen for keyboard input
-        self.running = True
-        self.keyboard_thread = threading.Thread(target=self.keyboard_control)
-        self.keyboard_thread.start()
+        self.get_logger().info("Linearly interpolating position to the target and republishing to mavros/local_position/odom")
 
-        # Timer to publish the drone's position at regular intervals
-        self.timer = self.create_timer(0.1, self.publish_position)
+    def pose_callback(self, msg: PoseStamped):
+        self.target_pose = msg
 
-    def keyboard_control(self):
-        while self.running:
-            try:
-                if keyboard.is_pressed('w'):
-                    self.y += 0.1
-                if keyboard.is_pressed('s'):
-                    self.y -= 0.1
-                if keyboard.is_pressed('a'):
-                    self.x -= 0.1
-                if keyboard.is_pressed('d'):
-                    self.x += 0.1
-                time.sleep(0.1)
-            except Exception as e:
-                self.get_logger().error(f"Keyboard control error: {e}")
+    def update_position(self):
+        if self.target_pose is None:
+            # Publish an initial pose if no target is set
+            initial_pose = Odometry()
+            initial_pose.header.frame_id = 'map'
+            initial_pose.child_frame_id = 'base_link'  # Add child frame ID for compatibility
+            initial_pose.pose.pose.position.x = 0.0
+            initial_pose.pose.pose.position.y = 0.0
+            initial_pose.pose.pose.position.z = 0.0
+            initial_pose.pose.pose.orientation.x = 0.0
+            initial_pose.pose.pose.orientation.y = 0.0
+            initial_pose.pose.pose.orientation.z = 0.0
+            initial_pose.pose.pose.orientation.w = 1.0  # No rotation
+            initial_pose.header.stamp = self.get_clock().now().to_msg()
+            
+            self.publisher.publish(initial_pose)
+            return
+        
+        current_time = self.get_clock().now()
+        if self.last_update_time is None:
+            self.last_update_time = current_time
+            return
+        
+        # Calculate time delta
+        dt = (current_time - self.last_update_time).nanoseconds * 1e-9  # Convert nanoseconds to seconds
+        self.last_update_time = current_time
 
-    def publish_position(self):
-        # Create and publish an Odometry message
-        msg = Odometry()
-        msg.header.stamp = self.get_clock().now().to_msg()
-        msg.header.frame_id = 'world'
-        msg.pose.pose.position.x = self.x
-        msg.pose.pose.position.y = self.y
-        msg.pose.pose.position.z = self.z
-        self.publisher.publish(msg)
+        # Calculate the distance to the target
+        dx = self.target_pose.pose.position.x - self.current_pose.pose.position.x
+        dy = self.target_pose.pose.position.y - self.current_pose.pose.position.y
+        dz = self.target_pose.pose.position.z - self.current_pose.pose.position.z
+        distance = math.sqrt(dx**2 + dy**2 + dz**2)
 
-    def destroy_node(self):
-        self.running = False
-        self.keyboard_thread.join()
-        super().destroy_node()
+        # If the drone is close enough to the target, stop moving
+        if distance < 0.01:  # Threshold for reaching the target
+            self.current_pose.pose.position.x = self.target_pose.pose.position.x
+            self.current_pose.pose.position.y = self.target_pose.pose.position.y
+            self.current_pose.pose.position.z = self.target_pose.pose.position.z
+            self.publish_odom()
+            return
+
+        # Calculate the direction vector
+        direction_x = dx / distance
+        direction_y = dy / distance
+        direction_z = dz / distance
+
+        # Move towards the target at the specified speed
+        move_distance = min(self.speed * dt, distance)
+        self.current_pose.pose.position.x += direction_x * move_distance
+        self.current_pose.pose.position.y += direction_y * move_distance
+        self.current_pose.pose.position.z += direction_z * move_distance
+
+        # Publish the updated odometry
+        self.publish_odom()
+
+    def publish_odom(self):
+        # Create and populate the Odometry message
+        odom_msg = Odometry()
+        odom_msg.header = self.current_pose.header
+        odom_msg.header.stamp = self.get_clock().now().to_msg()
+        odom_msg.header.frame_id = 'map'  # Set frame ID to 'map'
+        odom_msg.child_frame_id = 'base_link'  # Add child frame ID for compatibility
+        odom_msg.pose.pose = self.current_pose.pose
+        
+        # Publish the Odometry message
+        self.publisher.publish(odom_msg)
 
 def main(args=None):
     rclpy.init(args=args)
     node = FakeDrone()
 
     try:
-        rclpy.spin(node)
+        while rclpy.ok():
+            rclpy.spin_once(node, timeout_sec=0.1)
+            node.update_position()
     except KeyboardInterrupt:
         pass
 

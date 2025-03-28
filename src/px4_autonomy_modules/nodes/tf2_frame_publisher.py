@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-import math
-
 from geometry_msgs.msg import TransformStamped
-
-import numpy as np
-
 import rclpy
 from rclpy.node import Node
 
@@ -33,7 +28,7 @@ class FramePublisher(Node):
         # Read message content and assign it to
         # corresponding tf variables
         t.header.stamp = msg.header.stamp
-        t.header.frame_id = msg.header.frame_id # world
+        t.header.frame_id = msg.header.frame_id # map
         t.child_frame_id = msg.child_frame_id # base_link
 
         t.transform.translation.x = msg.pose.pose.position.x
@@ -59,3 +54,6 @@ def main():
         pass
 
     rclpy.shutdown()
+    
+if __name__ == '__main__':
+    main()

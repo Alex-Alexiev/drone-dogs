@@ -3,8 +3,12 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from ament_index_python import get_package_share_directory
+import os.path
 
 def generate_launch_description():
+    pkg_share = get_package_share_directory('px4_autonomy_modules')
+    rviz_config_path = os.path.join(pkg_share, 'config', 'config.rviz')
+    
     return LaunchDescription([
         #
         DeclareLaunchArgument(
@@ -143,5 +147,12 @@ def generate_launch_description():
             package='tf2_ros',
             executable='static_transform_publisher',
             arguments = ['0.0522', '-0.0341', '-0.0962', '0.0', '0.0', '3.14', 'base_link', 'camera_frame'] # IMX219 camera
-        )
+        ),
+        Node(
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2',
+            arguments=['-d', rviz_config_path],
+            output='screen'
+        ),
     ])

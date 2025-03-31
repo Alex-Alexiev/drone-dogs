@@ -213,7 +213,7 @@ class CommNode(Node):
         if self.state == SEARCHING_STATE:
             self.get_logger().info('Detected car while searching. Switching to chase mode.')
             self.last_car_px_dist = None
-        self.state = CHASE_STATE
+            self.state = CHASE_STATE
     
     def get_search_grid(self):
         x_points = np.arange(X_MIN, X_MAX, SEARCH_GRID_SIZE_X)
@@ -228,7 +228,7 @@ class CommNode(Node):
         # Use the current pose not the current grid position
         dists = np.sqrt((self.cur_pose.pose.position.x - X)**2 + (self.cur_pose.pose.position.y - Y)**2)
         min_dist_idx = np.argmin(dists)
-        return X[min_dist_idx], Y[min_dist_idx]
+        return min_dist_idx, min_dist_idx % len(Y)  # x, y indices
     
     def handle_searching_state(self):
         if self.cur_pose is None:
@@ -316,16 +316,21 @@ class CommNode(Node):
         if self.last_acquired_car_time is None:
             self.get_logger().error('last_acquired_car_time is None')
             return
-        if (self.get_clock().now() - self.last_acquired_car_time).seconds > LOST_CAR_TIMEOUT:
+        duration_since_last_detection = self.get_clock().now() - self.last_acquired_car_time
+        seconds_since_last_detection = duration_since_last_detection.nanoseconds / 1e9
+        if seconds_since_last_detection > LOST_CAR_TIMEOUT:
             self.get_logger().info('Lost the car. Going back to searching.')
+            self.grid_position_x, self.grid_position_y = self.get_closest_search_grid_point()
             self.state = SEARCHING_STATE
             return
 
         # Calculate the pixel distance of the car from the center of the camera
-        # TODO: Apply a transformation to align the pixel coordinates with the drone's frame of reference
-        car_px_dist_x = CAMERA_CENTER_X - self.cur_detected_car_position.x_center
-        car_px_dist_y = CAMERA_CENTER_Y - self.cur_detected_car_position.y_center
-        self.get_logger().info(f"Car pixel distance from center: {car_px_dist_x}, {car_px_dist_y}")
+        car_px_dist_x = self.cur_detected_car_position.x_center - CAMERA_CENTER_X
+        car_px_dist_y = self.cur_detected_car_position.y_center - CAMERA_CENTER_Y
+        
+        # Apply a 2D rotation to the pixel coordinates to align with the drone's frame of reference
+        car_px_dist_x = car_px_dist_x * np.cos(np.radians(180.0)) - car_px_dist_y * np.sin(np.radians(180.0))
+        car_px_dist_y = car_px_dist_x * np.sin(np.radians(180.0)) + car_px_dist_y * np.cos(np.radians(180.0))
         
         velocity_control = TwistStamped()
         velocity_control.header = self.cur_pose.header
@@ -343,7 +348,7 @@ class CommNode(Node):
             # Calculate the integral term
             # self.integral_term_x += car_px_dist_x * VEL_PUB_FREQ
             # self.integral_term_y += car_px_dist_y * VEL_PUB_FREQ
-            velocity_control.twist.linear.x = VELOCITY_CONTROL_P * car_px_dist_x # + VELOCITY_CONTROL_I * self.integral_term_x + VELOCITY_CONTROL_D * derivative_x
+            velocity_control.twist.linear.x = -VELOCITY_CONTROL_P * car_px_dist_x # + VELOCITY_CONTROL_I * self.integral_term_x + VELOCITY_CONTROL_D * derivative_x
             velocity_control.twist.linear.y = VELOCITY_CONTROL_P * car_px_dist_y # + VELOCITY_CONTROL_I * self.integral_term_y + VELOCITY_CONTROL_D * derivative_y
 
             velocity_control.twist.linear.z = 0.0

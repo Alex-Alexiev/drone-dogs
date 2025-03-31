@@ -71,6 +71,16 @@ install (
   DESTINATION lib/${PROJECT_NAME}/
 )
 
+install (
+  PROGRAMS nodes/fake_car.py
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
+install (
+  PROGRAMS nodes/fake_car_detection.py
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
 install(
   DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}

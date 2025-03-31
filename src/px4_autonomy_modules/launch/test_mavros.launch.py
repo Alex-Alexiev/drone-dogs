@@ -78,29 +78,35 @@ def generate_launch_description():
             ]
         ),
 #         Node(
-#             package="px4_autonomy_modules",  # Replace with the actual package name containing your script
+#             package="px4_autonomy_modules",
 #             executable="camera_pose_relay_node.py",
 #             name="camera_pose_relay_node",
 # #            output="screen",
 #             parameters=[]  # Add any parameters if needed
 #         ),
         Node(
-            package="px4_autonomy_modules",  # Replace with the actual package name containing your script
+            package="px4_autonomy_modules",
             executable="pose_relay_node.py",
             name="pose_relay_node",
 #            output="screen",
             parameters=[]  # Add any parameters if needed
         ),
         Node(
-            package="px4_autonomy_modules",  # Replace with the actual package name containing your script
+            package="px4_autonomy_modules",
             executable="fake_vicon.py",
             name="fake_vicon",
             parameters=[]  # Add any parameters if needed
         ),
         Node(
-            package="px4_autonomy_modules",  # Replace with the actual package name containing your script
+            package="px4_autonomy_modules",
             executable="fake_drone.py",
             name="fake_drone",
+            parameters=[]  # Add any parameters if needed
+        ),
+        Node(
+            package="px4_autonomy_modules",
+            executable="fake_car_detection.py",
+            name="fake_car_detection",
             parameters=[]  # Add any parameters if needed
         ),
         Node(

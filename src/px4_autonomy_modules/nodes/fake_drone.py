@@ -19,6 +19,14 @@ class FakeDrone(Node):
             rclpy.qos.qos_profile_system_default
         )
         
+        # Subscriber to the /mavros/setpoint_velocity/cmd_vel topic
+        self.velocity_subscription = self.create_subscription(
+            TwistStamped,
+            '/mavros/setpoint_velocity/cmd_vel',
+            self.velocity_callback,
+            rclpy.qos.qos_profile_system_default
+        )
+         
         # Publisher to the mavros/local_position/odom topic
         self.publisher = self.create_publisher(
             Odometry,
@@ -28,6 +36,7 @@ class FakeDrone(Node):
         
         self.current_pose = PoseStamped()
         self.target_pose = None
+        self.target_velocity = None
         self.last_update_time = None
         self.speed = 1.0  # Speed of the drone in meters per second
 
@@ -35,6 +44,9 @@ class FakeDrone(Node):
 
     def pose_callback(self, msg: PoseStamped):
         self.target_pose = msg
+        
+    def velocity_callback(self, msg: TwistStamped):
+        self.target_velocity = msg
 
     def update_position(self):
         if self.target_pose is None:
@@ -54,6 +66,7 @@ class FakeDrone(Node):
             self.publisher.publish(initial_pose)
             return
         
+        
         current_time = self.get_clock().now()
         if self.last_update_time is None:
             self.last_update_time = current_time
@@ -62,6 +75,19 @@ class FakeDrone(Node):
         # Calculate time delta
         dt = (current_time - self.last_update_time).nanoseconds * 1e-9  # Convert nanoseconds to seconds
         self.last_update_time = current_time
+
+        if self.target_velocity is not None:
+            # Compare timestamps to determine which target is newer
+            velocity_time = Time.from_msg(self.target_velocity.header.stamp)
+            pose_time = Time.from_msg(self.target_pose.header.stamp)
+            
+            if velocity_time > pose_time:
+                # Update position based on velocity
+                self.current_pose.pose.position.x += self.target_velocity.twist.linear.x * dt
+                self.current_pose.pose.position.y += self.target_velocity.twist.linear.y * dt
+                self.current_pose.pose.position.z += self.target_velocity.twist.linear.z * dt
+                self.publish_odom()
+                return
 
         # Calculate the distance to the target
         dx = self.target_pose.pose.position.x - self.current_pose.pose.position.x

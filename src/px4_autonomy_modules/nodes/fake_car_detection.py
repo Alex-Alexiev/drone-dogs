@@ -51,12 +51,13 @@ class FakeCarDetection(Node):
         detection_msg = Detection()
         
         # Project car position to image coordinates
-        pixel_coords = self.project_car_to_image(self.get_clock())
-        if pixel_coords is not None:
+        detection = self.project_car_to_image()
+        if detection is not None:
             # Create a fake detection
             detection_msg.confidence = 1.0  # Fake confidence
-            detection_msg.x_center = pixel_coords[0]
-            detection_msg.y_center = pixel_coords[1]
+            detection_msg.x_center = detection[0]
+            detection_msg.y_center = detection[1]
+            detection_msg.header.stamp = detection[2].to_msg()  # Timestamp from TF lookup
             detection_msg.width = 50.0  # Fake width
             detection_msg.height = 50.0  # Fake height
             
@@ -65,7 +66,7 @@ class FakeCarDetection(Node):
         else:
             return
     
-    def project_car_to_image(self, clock):
+    def project_car_to_image(self):
         """Project car position to image coordinates"""
         try:
             # Get transform from car to camera
@@ -110,7 +111,7 @@ class FakeCarDetection(Node):
             
             # Check if point is within image bounds
             if 0 <= u < self.image_width and 0 <= v < self.image_height:
-                return (float(u), float(v))
+                return (float(u), float(v), when)
             else:
                 return None  # Car is outside the camera's field of view
                 

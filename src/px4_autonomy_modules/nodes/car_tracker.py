@@ -111,7 +111,6 @@ class CommNode(Node):
         self.get_logger().info("Finished setting up services and subscribers/publishers")
         
         self.state_machine_timer = self.create_timer(1 / STATE_UPDATE_FREQ, self.state_machine_callback)
-        self.last_acquired_car_time = None
 
     # Callback handlers
     def handle_launch(self):
@@ -208,7 +207,6 @@ class CommNode(Node):
             
     def callback_detected_car_position(self, msg):
         self.get_logger().info(f"Detected car at ({msg.x_center}, {msg.y_center})")
-        self.last_acquired_car_time = self.get_clock().now()
         self.cur_detected_car_position = msg
         if self.state == SEARCHING_STATE:
             self.get_logger().info('Detected car while searching. Switching to chase mode.')
@@ -313,10 +311,9 @@ class CommNode(Node):
         if self.cur_detected_car_position is None:
             self.get_logger().error('last_detected_car_position is None')
             return
-        if self.last_acquired_car_time is None:
-            self.get_logger().error('last_acquired_car_time is None')
-            return
-        duration_since_last_detection = self.get_clock().now() - self.last_acquired_car_time
+        current_time = self.get_clock().now()
+        message_time = rclpy.time.Time.from_msg(self.cur_detected_car_position.header.stamp)
+        duration_since_last_detection = current_time - message_time
         seconds_since_last_detection = duration_since_last_detection.nanoseconds / 1e9
         if seconds_since_last_detection > LOST_CAR_TIMEOUT:
             self.get_logger().info('Lost the car. Going back to searching.')

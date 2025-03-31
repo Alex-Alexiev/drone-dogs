@@ -137,6 +137,11 @@ def generate_launch_description():
         Node(
             package='tf2_ros',
             executable='static_transform_publisher',
-            arguments = ['0', '0', '0', '0', '0', '3.14', 'base_link', 'camera_orientation'] # Realsense camera
+            arguments = ['0', '0', '0', '0', '0', '3.14', 'base_link', 'camera_orientation'] # IMX219 camera
         ),
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            arguments = ['0.0522', '-0.0341', '-0.0962', '0.0', '0.0', '3.14', 'base_link', 'camera_frame'] # IMX219 camera
+        )
     ])

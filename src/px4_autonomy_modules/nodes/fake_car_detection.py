@@ -71,11 +71,11 @@ class FakeCarDetection(Node):
         try:
             # Get transform from car to camera
             # This handles all the 3D coordinate transformations for you
-            when = self.get_clock().now() - rclpy.time.Duration(seconds=0.5)
+            tf_timestamp = self.get_clock().now() - rclpy.time.Duration(seconds=0.5)
             transform = self.tf_buffer.lookup_transform(
-                'camera_orientation',         # Target frame (camera frame) TODO: Change to a camera frame with the translation as well
-                'fake_car/base_link',         # Source frame (car frame)
-                when,                   # Time to look up transform
+                'camera_frame',         # Target frame (camera frame)
+                'fake_car/base_link',   # Source frame (car frame)
+                tf_timestamp,                   # Time to look up transform
                 timeout=rclpy.duration.Duration(seconds=0.1)  # Timeout for lookup
             )
             
@@ -111,7 +111,7 @@ class FakeCarDetection(Node):
             
             # Check if point is within image bounds
             if 0 <= u < self.image_width and 0 <= v < self.image_height:
-                return (float(u), float(v), when)
+                return (float(u), float(v), tf_timestamp)
             else:
                 return None  # Car is outside the camera's field of view
                 

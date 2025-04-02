@@ -86,6 +86,7 @@ class PerceptionNode(Node):
         # sort the outputs based on confidence
         outputs = sorted(outputs, key=lambda x: x[4], reverse=True)
         # Assuming the first output is the most confident detection
+        self.get_logger().info(f'Detection found: {outputs[0]}')
         x1, y1, x2, y2, confidence, class_id = outputs[0]
         
         # Scale coordinates back to original image size

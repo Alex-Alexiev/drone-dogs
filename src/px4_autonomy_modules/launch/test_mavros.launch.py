@@ -134,6 +134,13 @@ def generate_launch_description():
             parameters=[]
         ),
         Node(
+            package="px4_autonomy_modules",
+            executable="car_pose_publisher.py",
+            name="car_pose_publisher",
+#            output="screen",
+            parameters=[]  # Add any parameters if needed
+        ),
+        Node(
             package='tf2_ros',
             executable='static_transform_publisher',
             arguments = ['0.0102', '0', '0.1064', '0', '1.57', '0', 'base_link', 'odom_frame'] # Realsense camera

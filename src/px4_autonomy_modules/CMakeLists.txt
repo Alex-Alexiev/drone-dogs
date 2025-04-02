@@ -82,8 +82,23 @@ install (
 )
 
 install(
+  PROGRAMS nodes/car_pose_publisher.py
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
+install(
+  PROGRAMS nodes/perception_node.py
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
+install(
   DIRECTORY config/
   DESTINATION share/${PROJECT_NAME}/config
+)
+
+install(
+  DIRECTORY models/
+  DESTINATION share/${PROJECT_NAME}/models
 )
 
 install(

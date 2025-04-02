@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import numpy as np
+import cv2
 import tf2_ros
 import rclpy
 from rclpy.node import Node
@@ -33,7 +34,7 @@ class CarPosePublisher(Node):
         # Create a publisher for the car pose
         self.car_pose_pub = self.create_publisher(
             Odometry,
-            'car/pose',
+            '/real_car/pose',
             10
         )
         
@@ -50,17 +51,20 @@ class CarPosePublisher(Node):
     def detection_callback(self, msg):
         """Convert 2D detection to 3D pose using camera transform"""
         try:
-            # Get the pixel coordinates
-            u = msg.x_center
-            v = msg.y_center
+            # Get pixel coordinates
+            pixel_point = np.array([[msg.x_center, msg.y_center]], dtype=np.float32)
             
-            # Create a ray from the camera center through this pixel
-            # Use the inverse of the camera matrix to get the ray direction
-            pixel = np.array([[u], [v], [1.0]])
-            ray_camera = np.linalg.inv(self.camera_matrix) @ pixel
+            # Undistort the point - this converts to normalized coordinates
+            norm_coords = cv2.undistortPoints(
+                pixel_point, 
+                self.camera_matrix, 
+                self.distortion_coeffs
+            )
             
-            # Normalize the ray
-            ray_camera = ray_camera / np.linalg.norm(ray_camera)
+            # Now norm_coords is a ray direction in camera space
+            ray_camera = np.array([norm_coords[0][0][0], 
+                                norm_coords[0][0][1], 
+                                1.0])  # Z=1 for normalized coords
             
             # Get the camera pose in world frame
             camera_transform = self.tf_buffer.lookup_transform(
@@ -104,13 +108,13 @@ class CarPosePublisher(Node):
                 return
                 
             # Calculate intersection point
-            intersection = cam_pos + t * ray_world.flatten()
+            intersection = cam_pos + t * ray_world
             
             # Create and publish the odometry message
             odom_msg = Odometry()
             odom_msg.header.stamp = msg.header.stamp
             odom_msg.header.frame_id = 'map'
-            odom_msg.child_frame_id = 'car/base_link'
+            odom_msg.child_frame_id = 'real_car/base_link'
             
             # Set position
             odom_msg.pose.pose.position.x = float(intersection[0])

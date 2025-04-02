@@ -35,7 +35,7 @@ class FakeCarDetection(Node):
         # Create a subscriber to the fake car pose
         self.fake_car_pose_sub = self.create_subscription(
             Odometry,
-            'fake_car/pose',
+            '/fake_car/pose',
             self.publish_car_detection,
             rclpy.qos.qos_profile_system_default
         )

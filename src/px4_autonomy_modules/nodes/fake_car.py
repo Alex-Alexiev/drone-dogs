@@ -25,7 +25,7 @@ class FramePublisher(Node):
         # Create a publisher for the fake car pose
         self.fake_car_pose_pub = self.create_publisher(
             Odometry,
-            'fake_car/pose', 
+            '/fake_car/pose', 
             rclpy.qos.qos_profile_system_default
         )
 

@@ -2,9 +2,9 @@
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
+import cv2
 from cv_bridge import CvBridge
 import numpy as np
-import cv2
 import onnxruntime as ort
 from perception_msgs.msg import Detection
 
@@ -20,7 +20,7 @@ class PerceptionNode(Node):
         # Subscriber to the camera image topic
         self.subscription = self.create_subscription(
             Image,
-            '/video_source/raw',
+            '/video_source_old/raw',
             self.image_callback,
             10
         )
@@ -29,6 +29,12 @@ class PerceptionNode(Node):
         self.publisher = self.create_publisher(
             Detection,
             '/perception/detection',
+            10
+        )
+        
+        self.img_publisher = self.create_publisher(
+            Image,
+            '/perception/detection/img',
             10
         )
         
@@ -107,6 +113,18 @@ class PerceptionNode(Node):
         self.publisher.publish(detection_msg)
         self.get_logger().info(f'Published detection: conf={confidence}, x={x_center}, y={y_center}')
 
+        # Draw bounding box on the image (for visualization)
+        cv2.rectangle(cv_image, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+        cv2.putText(cv_image, f'Conf: {confidence:.2f}', (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        
+        # Convert OpenCV image back to ROS Image message
+        detection_image_msg = self.bridge.cv2_to_imgmsg(cv_image, encoding='bgr8')
+        detection_image_msg.header = msg.header
+        detection_image_msg.header.frame_id = 'camera_frame'
+        detection_image_msg.header.stamp = msg.header.stamp
+        
+        # Publish the detection image
+        self.img_publisher.publish(detection_image_msg)
 
 def main(args=None):
     rclpy.init(args=args)

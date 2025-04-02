@@ -110,7 +110,7 @@ class PerceptionNode(Node):
             boxes = outputs[1]   # [batch, num_boxes, 4]
             
             # Extract detections above threshold
-            threshold = 0.5
+            threshold = 0.2
             detections = []
             
             # Process each class

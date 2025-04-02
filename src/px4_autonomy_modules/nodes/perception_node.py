@@ -67,8 +67,8 @@ class PerceptionNode(Node):
         map1, map2 = cv2.fisheye.initUndistortRectifyMap(self.camera_matrix, self.distortion_coeffs, np.eye(3), self.camera_matrix, DIM, cv2.CV_16SC2)
         undistorted_img = cv2.remap(cv_image, map1, map2, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
         
-        resize_width = 640
-        resize_height = 360
+        resize_width = 300
+        resize_height = 300
         input_image = cv2.resize(undistorted_img, (resize_width, resize_height))
         input_image = cv2.cvtColor(input_image, cv2.COLOR_BGR2RGB)
         input_image = input_image.astype(np.float32) / 255.0  # Normalization

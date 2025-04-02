@@ -17,14 +17,10 @@ class FakeCarDetection(Node):
         # Camera intrinsic parameters
         self.image_width = 1280
         self.image_height = 720
-        self.camera_matrix = np.array([
-            [500.0, 0.0, self.image_width / 2.0],  # fx, 0, cx
-            [0.0, 500.0, self.image_height / 2.0],  # 0, fy, cy
-            [0.0, 0.0, 1.0]       # 0, 0, 1
-        ])
+        self.camera_matrix = np.array([[775.2993107832974, 0.0, 572.8916520968021], [0.0, 774.3546328379497, 385.7852440677227], [0.0, 0.0, 1.0]], dtype=np.float32)
         
-        # Distortion coefficients (if available)
-        self.distortion_coeffs = np.zeros(5)
+        # Distortion coefficients
+        self.distortion_coeffs = np.array([[-0.08866930295454323], [0.3412881145258634], [-0.6120691795041373], [-0.2083127547123781]], dtype=np.float32)
         
         # Set up TF2 for transform lookups
         self.tf_buffer = Buffer()

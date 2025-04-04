@@ -21,7 +21,7 @@ class PerceptionNode(Node):
 
         # Publisher to the perception detection topic
         self.publisher = self.create_publisher(
-            Detection2DArray,
+            Detection,
             '/perception/detection',
             10
         )

@@ -14,6 +14,10 @@
   <depend>nav_msgs</depend>
   <depend>geometry_msgs</depend>
   <depend>sensor_msgs</depend>
+  <depend>vision_msgs</depend>
+  <!-- <depend>tf2_ros</depend>
+  <depend>rviz2</depend>
+  <depend>rviz_common</depend> -->
   <depend>mavros</depend>
   <depend>mavros_extras</depend>
   <exec_depend>perception_msgs</exec_depend>

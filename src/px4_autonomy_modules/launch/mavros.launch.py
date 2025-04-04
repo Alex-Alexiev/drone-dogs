@@ -95,9 +95,7 @@ def generate_launch_description():
             package="px4_autonomy_modules",  # Replace with the actual package name containing your script
             executable="perception_node.py",
             name="perception_node",
-            parameters=[{
-                'onnx_file_path': get_package_share_directory("px4_autonomy_modules") + "/models/ssd-mobilenet.onnx"
-            }]
+            parameters=[]
         ),
         Node(
             package="px4_autonomy_modules",

@@ -3,12 +3,8 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from ament_index_python import get_package_share_directory
-import os.path
 
 def generate_launch_description():
-    pkg_share = get_package_share_directory('px4_autonomy_modules')
-    rviz_config_path = os.path.join(pkg_share, 'config', 'test_config.rviz')
-    
     return LaunchDescription([
         #
         DeclareLaunchArgument(
@@ -81,15 +77,8 @@ def generate_launch_description():
                 LaunchConfiguration("config_yaml")
             ]
         ),
-#         Node(
-#             package="px4_autonomy_modules",
-#             executable="camera_pose_relay_node.py",
-#             name="camera_pose_relay_node",
-# #            output="screen",
-#             parameters=[]  # Add any parameters if needed
-#         ),
         Node(
-            package="px4_autonomy_modules",
+            package="px4_autonomy_modules",  # Replace with the actual package name containing your script
             executable="pose_relay_node.py",
             name="pose_relay_node",
 #            output="screen",
@@ -97,69 +86,10 @@ def generate_launch_description():
         ),
         Node(
             package="px4_autonomy_modules",
-            executable="fake_vicon.py",
-            name="fake_vicon",
-            parameters=[]  # Add any parameters if needed
-        ),
-        Node(
-            package="px4_autonomy_modules",
-            executable="fake_drone.py",
-            name="fake_drone",
-            parameters=[]  # Add any parameters if needed
-        ),
-        Node(
-            package="px4_autonomy_modules",
-            executable="fake_car_detection.py",
-            name="fake_car_detection",
-            parameters=[]  # Add any parameters if needed
-        ),
-        Node(
-            package="px4_autonomy_modules",
-            executable="car_tracker.py",
-            name="rob498_drone_07", #{LaunchConfiguration('drone_num')}",
+            executable="fe_3.py",
+            name=f"rob498_drone_07", #{LaunchConfiguration('drone_num')}",
             parameters=[
                 {"drone_num" : LaunchConfiguration('drone_num')}
             ]
-        ),
-        Node(
-            package="px4_autonomy_modules",
-            executable="tf2_frame_publisher.py",
-            name="tf2_frame_publisher",
-            parameters=[]
-        ),
-        Node(
-            package="px4_autonomy_modules",
-            executable="text_marker_publisher.py",
-            name="text_marker_publisher",
-            parameters=[]
-        ),
-        Node(
-            package="px4_autonomy_modules",
-            executable="car_pose_publisher.py",
-            name="car_pose_publisher",
-#            output="screen",
-            parameters=[]  # Add any parameters if needed
-        ),
-        Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            arguments = ['0.0102', '0', '0.1064', '0', '1.57', '0', 'base_link', 'odom_frame'] # Realsense camera
-        ),
-        Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            arguments = ['0', '0', '0', '0', '0', '3.14', 'base_link', 'camera_orientation'] # IMX219 camera
-        ),
-        Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            arguments = ['0.0522', '-0.0341', '-0.0962', '0.0', '0.0', '3.14', 'base_link', 'camera_frame'] # IMX219 camera
-        ),
-        Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            arguments=['-d', rviz_config_path],
-            output='screen'
         ),
     ])

@@ -26,10 +26,10 @@ class PerceptionNode(Node):
             10
         )
         
-        self.image_width = 1280
-        self.image_height = 720
-        self.model_width = 640
-        self.model_height = 360
+        self.image_width = 1280.0
+        self.image_height = 720.0
+        self.model_width = 320.0
+        self.model_height = 180.0
         
         self.get_logger().info('Perception Node Initialized (Detection2DArray → Detection converter)')
 

@@ -28,8 +28,8 @@ class PerceptionNode(Node):
         
         self.image_width = 1280
         self.image_height = 720
-        self.model_width = 300
-        self.model_height = 300
+        self.model_width = 640
+        self.model_height = 360
         
         self.get_logger().info('Perception Node Initialized (Detection2DArray → Detection converter)')
 
@@ -66,14 +66,14 @@ class PerceptionNode(Node):
             width = bbox.size_x
             height = bbox.size_y
             
-            # Scale from 300x300 to 1280x720 if needed
-            # x_scale = self.image_width / self.model_width
-            # y_scale = self.image_height / self.model_height
+            # Scale from 640x360 to 1280x720
+            x_scale = self.image_width / self.model_width
+            y_scale = self.image_height / self.model_height
             
-            # x_center *= x_scale
-            # y_center *= y_scale
-            # width *= x_scale
-            # height *= y_scale
+            x_center *= x_scale
+            y_center *= y_scale
+            width *= x_scale
+            height *= y_scale
             
             # Create and publish detection message
             detection_msg = Detection()

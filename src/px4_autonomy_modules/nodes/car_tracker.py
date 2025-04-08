@@ -184,6 +184,7 @@ class CommNode(Node):
                 pose.position.z > SAFE_Z_MAX or pose.position.z < SAFE_Z_MIN):
             self.get_logger().warn(f"Vicon Pose - Position: ({pose.position.x}, {pose.position.y}, {pose.position.z})")
             self.get_logger().warn("Drone is outside the safe bounding box. Aborting.")
+            self.handle_abort()
 
     
     def callback_mavros_pose(self, msg):

@@ -197,7 +197,7 @@ class CommNode(Node):
         self.get_logger().debug(f"Received Pose - Position: ({pose.position.x}, {pose.position.y}, {pose.position.z})")
         
         # Check if we've escaped the bounds
-        if pose.position.x > X_MAX or pose.position.x < X_MIN or pose.position.y > Y_MAX or pose.position.y < Y_MIN:
+        if self.state != ABORT_STATE and (pose.position.x > X_MAX or pose.position.x < X_MIN or pose.position.y > Y_MAX or pose.position.y < Y_MIN):
             self.state = ESCAPED_BOUNDS_STATE
             self.handle_escaped_bounds_state()
         elif self.state == ESCAPED_BOUNDS_STATE:

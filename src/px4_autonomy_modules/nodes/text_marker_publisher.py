@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-
 import rclpy
 from rclpy.node import Node
 from visualization_msgs.msg import Marker
 from std_msgs.msg import String
-from geometry_msgs.msg import Point
+from sensor_msgs.msg import BatteryState
 
 class TextMarkerPublisher(Node):
     def __init__(self):
@@ -18,7 +17,6 @@ class TextMarkerPublisher(Node):
             10
         )
         
-        
         # Subscribe to the text content you want to display
         self.text_sub = self.create_subscription(
             String,
@@ -27,8 +25,20 @@ class TextMarkerPublisher(Node):
             10
         )
         
+        # Subscribe to battery state
+        self.battery_sub = self.create_subscription(
+            BatteryState,
+            f'/mavros/battery',  # Standard MAVROS battery topic
+            self.battery_callback,
+            10
+        )
+        
         # Store the current state text
         self.current_state = "UNSET"
+        
+        # Store battery information
+        self.battery_voltage = 0.0
+        self.battery_percentage = 0.0
         
         # Create a timer to continuously publish the marker
         # (publishing at 10Hz ensures the marker is always visible)
@@ -40,6 +50,12 @@ class TextMarkerPublisher(Node):
         # Update the current state text
         self.current_state = msg.data
         self.get_logger().debug(f"Received new state: {self.current_state}")
+    
+    def battery_callback(self, msg):
+        # Update battery information
+        self.battery_voltage = msg.voltage
+        self.battery_percentage = msg.percentage * 100.0  # Convert to percentage
+        self.get_logger().debug(f"Battery: {self.battery_voltage:.2f}V, {self.battery_percentage:.0f}%")
     
     def publish_marker(self):
         # Create a text marker
@@ -80,6 +96,44 @@ class TextMarkerPublisher(Node):
         
         # Publish the marker
         self.marker_pub.publish(marker)
+        
+        # Create a battery text marker
+        battery_marker = Marker()
+        battery_marker.header.frame_id = "base_link"
+        battery_marker.header.stamp = self.get_clock().now().to_msg()
+        
+        # Set marker properties
+        battery_marker.ns = "text_markers"
+        battery_marker.id = 1  # Different ID from state marker
+        battery_marker.type = Marker.TEXT_VIEW_FACING
+        battery_marker.action = Marker.ADD
+        
+        # Position the battery marker above the state marker
+        battery_marker.pose.position.x = 0.0
+        battery_marker.pose.position.y = 0.0
+        battery_marker.pose.position.z = 0.45  # Higher than state marker
+        
+        # Keep orientation as default quaternion (identity)
+        battery_marker.pose.orientation.w = 1.0
+        
+        # Format battery information
+        battery_marker.text = f"{self.battery_voltage:.1f}V {self.battery_percentage:.0f}%"
+        
+        # Set the scale of the text (text height in meters)
+        battery_marker.scale.z = 0.15  # Slightly smaller than state text
+        
+        # Set color (RGBA) - green for battery
+        battery_marker.color.r = 0.0
+        battery_marker.color.g = 1.0
+        battery_marker.color.b = 0.0
+        battery_marker.color.a = 1.0
+        
+        # Same lifetime as state marker
+        battery_marker.lifetime.sec = 0
+        battery_marker.lifetime.nanosec = 500000000  # 0.5 seconds
+        
+        # Publish the battery marker
+        self.marker_pub.publish(battery_marker)
 
 def main(args=None):
     rclpy.init(args=args)
@@ -90,3 +144,4 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
+    

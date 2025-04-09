@@ -278,17 +278,6 @@ class CommNode(Node):
         
         # Publish the desired pose and zero velocity
         self.mavros_pose_pub.publish(self.desired_pose)
-    
-        # Publish the velocity control
-        velocity_control = TwistStamped()
-        velocity_control.header = self.cur_pose.header
-        velocity_control.twist.linear.x = 0.0
-        velocity_control.twist.linear.y = 0.0
-        velocity_control.twist.linear.z = 0.0
-        velocity_control.twist.angular.x = 0.0
-        velocity_control.twist.angular.y = 0.0
-        velocity_control.twist.angular.z = 0.0
-        self.mavros_velocity_pub.publish(velocity_control)
         
     def handle_escaped_bounds_state(self):
         self.get_logger().info('Escaped bounds. Going back to nearest in-bounds point.')

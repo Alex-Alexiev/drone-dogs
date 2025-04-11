@@ -2,7 +2,7 @@
 import rclpy
 from rclpy.node import Node
 from nav_msgs.msg import Odometry
-from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import PoseStamped, PointStamped
 from perception_msgs.msg import Detection
 from std_srvs.srv import Trigger
 from copy import deepcopy
@@ -34,7 +34,7 @@ class CommNode(Node):
 
         # Publisher to send position setpoints
         self.mavros_position_pub = self.create_publisher(PoseStamped, 'mavros/setpoint_position/local', 10)
-
+        self.rotated_error_pub = self.create_publisher(PointStamped, 'rotated_error_point', 10)
         # Subscribers for the drone's current pose and detection messages
         self.pose_sub = self.create_subscription(
             Odometry,
@@ -141,15 +141,24 @@ class CommNode(Node):
         rotated_x = car_px_dist_x * cos_theta - car_px_dist_y * sin_theta
         rotated_y = car_px_dist_x * sin_theta + car_px_dist_y * cos_theta
 
-        # Create a new setpoint by adding a small delta (scaled by POSITION_CONTROL_STEP)
+        # Create a new setpoint by adding a small delta
         new_pose = deepcopy(self.cur_pose)
         new_pose.pose.position.x += -POSITION_CONTROL_STEP * rotated_x
         new_pose.pose.position.y += -POSITION_CONTROL_STEP * rotated_y
-        # The altitude remains unchanged during chase (can be modified if needed)
 
         new_pose.header.stamp = self.get_clock().now().to_msg()
         self.get_logger().info(f"Chase setpoint: x={new_pose.pose.position.x:.3f}, y={new_pose.pose.position.y:.3f}")
         self.mavros_position_pub.publish(new_pose)
+
+        # Publish the rotated vector as a PointStamped for RViz
+        error_point = PointStamped()
+        error_point.header.stamp = self.get_clock().now().to_msg()
+        error_point.header.frame_id = "map"
+        error_point.point.x = rotated_x
+        error_point.point.y = rotated_y
+        error_point.point.z = self.cur_pose.pose.position.z 
+
+        self.rotated_error_pub.publish(error_point)
 
 def main(args=None):
     rclpy.init(args=args)

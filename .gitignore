@@ -3,3 +3,4 @@ install/
 log/
 rosbag*
 .vscode/
+images/

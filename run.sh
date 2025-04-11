@@ -18,6 +18,6 @@ ros2 launch px4_autonomy_modules mavros.launch.py
 
 # ros2 launch ros_deep_learning video_source.ros2.launch
 
-# ros2 launch ros_deep_learning detectnet.ros2.launch output:=display://0 model_path:=/home/jetson/ros2_ws/src/px4_autonomy_modules/models/ssd-mobilenet-apr7.onnx input_blob:=input_0 output_cvg:=scores output_bbox:=boxes threshold:=0.2 class_labels_path:=/home/jetson/ros2_ws/src/px4_autonomy_modules/models/labels.txt
+# ros2 launch ros_deep_learning detectnet.ros2.launch output:=display://0 model_path:=/home/jetson/ros2_ws/src/px4_autonomy_modules/models/ssd-mobilenet-apr7.onnx input_blob:=input_0 output_cvg:=scores output_bbox:=boxes threshold:=0.2 class_labels_path:=/home/jetson/ros2_ws/src/px4_autonomy_modules/models/labels.txt image_height:=180 image_width:=320
 
 

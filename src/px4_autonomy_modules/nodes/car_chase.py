@@ -63,6 +63,7 @@ class CommNode(Node):
 
     def detection_callback(self, msg):
         self.get_logger().info(f"Detection received: x_center={msg.x_center}, y_center={msg.y_center}")
+        self.get_logger().info(f"State is now: {self.state}")
         self.cur_detected_car = msg
         # If in launch state, switch to chase mode when a detection is received
         if self.state == LAUNCH_STATE:
@@ -98,6 +99,7 @@ class CommNode(Node):
 
     def timer_callback(self):
         # In launch mode, repeatedly publish the launch setpoint
+        self.get_logger().info("Timer")
         if self.state == LAUNCH_STATE:
             if self.desired_pose is not None:
                 self.desired_pose.header.stamp = self.get_clock().now().to_msg()

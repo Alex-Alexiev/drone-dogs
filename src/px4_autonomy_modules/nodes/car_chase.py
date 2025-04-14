@@ -16,6 +16,14 @@ POSITION_CONTROL_STEP = 1e-3      # Gain to scale the delta pose step
 STATE_UPDATE_FREQ = 10          # Hz
 TARGET_Z = 2.5                  # Launch altitude
 
+# Safe bounding box
+SAFE_X_MAX = 4.5  # m
+SAFE_X_MIN = -4.5  # m
+SAFE_Y_MAX = 4.5  # m
+SAFE_Y_MIN = -4.5  # m
+SAFE_Z_MAX = 2.5  # m
+SAFE_Z_MIN = 0.0  # m
+
 # Minimal state definitions
 INIT_STATE   = "Init"
 LAUNCH_STATE = "Launch"
@@ -52,7 +60,7 @@ class CommNode(Node):
         self.timer = self.create_timer(1.0 / STATE_UPDATE_FREQ, self.timer_callback)
 
         # Service to handle the launch command
-        self.srv_launch = self.create_service(Trigger, 'rob498_drone_07/comm/launch', self.callback_launch)
+        self.srv_launch = self.create_service(Trigger, 'rob498_drone_7/comm/launch', self.callback_launch)
 
     def pose_callback(self, msg):
         # Convert Odometry to PoseStamped for consistency
@@ -99,7 +107,6 @@ class CommNode(Node):
 
     def timer_callback(self):
         # In launch mode, repeatedly publish the launch setpoint
-        self.get_logger().info("Timer")
         if self.state == LAUNCH_STATE:
             if self.desired_pose is not None:
                 self.desired_pose.header.stamp = self.get_clock().now().to_msg()
@@ -117,50 +124,63 @@ class CommNode(Node):
 
     def handle_chase_state(self):
         if self.cur_pose is None:
-            self.get_logger().error("Current pose is not available.")
+            self.get_logger().error('cur_pose is None')
             return
         if self.cur_detected_car is None:
-            self.get_logger().error("No detection data available for chase.")
+            self.get_logger().error('last_detected_car_position is None')
             return
-
-        # Check if the detection is too old
         current_time = self.get_clock().now()
-        detection_time = rclpy.time.Time.from_msg(self.cur_detected_car.header.stamp)
-        elapsed = current_time - detection_time
-        seconds_since_detection = elapsed.nanoseconds / 1e9
-        if seconds_since_detection > LOST_CAR_TIMEOUT:
-            self.get_logger().warn("Lost the detected car. Not updating setpoint.")
+        message_time = rclpy.time.Time.from_msg(self.cur_detected_car.header.stamp)
+        duration_since_last_detection = current_time - message_time
+        seconds_since_last_detection = duration_since_last_detection.nanoseconds / 1e9
+        if seconds_since_last_detection > LOST_CAR_TIMEOUT:
+            self.get_logger().info('Lost the car.')
+            self.state = LAUNCH_STATE
             return
 
-        # Compute error vector (in pixels) between detected car and camera center
+        # Calculate the pixel distance of the car from the center of the camera
         car_px_dist_x = self.cur_detected_car.x_center - CAMERA_CENTER_X
         car_px_dist_y = self.cur_detected_car.y_center - CAMERA_CENTER_Y
+        
+        # Apply a 2D rotation to the pixel coordinates to align with the drone's frame of reference
+        car_px_dist_x = car_px_dist_x * np.cos(np.radians(180.0)) - car_px_dist_y * np.sin(np.radians(180.0))
+        car_px_dist_y = car_px_dist_x * np.sin(np.radians(180.0)) + car_px_dist_y * np.cos(np.radians(180.0))
 
-        # Rotate the error vector by 180 degrees (for frame alignment)
-        theta = np.radians(180.0)
-        cos_theta = np.cos(theta)
-        sin_theta = np.sin(theta)
-        rotated_x = car_px_dist_x * cos_theta - car_px_dist_y * sin_theta
-        rotated_y = car_px_dist_x * sin_theta + car_px_dist_y * cos_theta
+        if self.cur_detected_car is not None:
+            # Create a new setpoint by adding a small delta
+            new_pose = deepcopy(self.cur_pose)
+            new_pose.pose.position.x += -POSITION_CONTROL_STEP * car_px_dist_x
+            new_pose.pose.position.y += POSITION_CONTROL_STEP * car_px_dist_y
 
-        # Create a new setpoint by adding a small delta
-        new_pose = deepcopy(self.cur_pose)
-        new_pose.pose.position.x += -POSITION_CONTROL_STEP * rotated_x
-        new_pose.pose.position.y += -POSITION_CONTROL_STEP * rotated_y
+            new_pose.header.stamp = self.get_clock().now().to_msg()
+            self.get_logger().info(f"Chase setpoint: x={new_pose.pose.position.x:.3f}, y={new_pose.pose.position.y:.3f}")
+            
+            if new_pose.pose.position.x > SAFE_X_MAX:
+                self.get_logger().info("Drone above SAFE_X_MAX. Setting x to SAFE_X_MAX.")
+                new_pose.pose.position.x = SAFE_X_MAX
+            elif new_pose.pose.position.x < SAFE_X_MIN:
+                self.get_logger().info("Drone below SAFE_X_MIN. Setting x to SAFE_X_MIN.")
+                new_pose.pose.position.x = SAFE_X_MIN
+            if new_pose.pose.position.y > SAFE_Y_MAX:
+                self.get_logger().info("Drone above SAFE_Y_MAX. Setting y to SAFE_Y_MAX.")
+                new_pose.pose.position.y = SAFE_Y_MAX
+            elif new_pose.pose.position.y < SAFE_Y_MIN:
+                self.get_logger().info("Drone below SAFE_Y_MIN. Setting y to SAFE_Y_MIN.")
+                new_pose.pose.position.y = SAFE_Y_MIN
+            if new_pose.pose.position.z > SAFE_Z_MAX:
+                self.get_logger().info("Drone is too high. Setting z to SAFE_Z_MAX.")   
+                new_pose.pose.position.z = TARGET_Z
+            self.mavros_position_pub.publish(new_pose)
 
-        new_pose.header.stamp = self.get_clock().now().to_msg()
-        self.get_logger().info(f"Chase setpoint: x={new_pose.pose.position.x:.3f}, y={new_pose.pose.position.y:.3f}")
-        self.mavros_position_pub.publish(new_pose)
+            # Publish the rotated vector as a PointStamped for RViz
+            error_point = PointStamped()
+            error_point.header.stamp = self.get_clock().now().to_msg()
+            error_point.header.frame_id = "base_link"
+            error_point.point.x = -car_px_dist_x * POSITION_CONTROL_STEP
+            error_point.point.y = car_px_dist_y * POSITION_CONTROL_STEP
+            error_point.point.z = self.cur_pose.pose.position.z 
 
-        # Publish the rotated vector as a PointStamped for RViz
-        error_point = PointStamped()
-        error_point.header.stamp = self.get_clock().now().to_msg()
-        error_point.header.frame_id = "map"
-        error_point.point.x = rotated_x
-        error_point.point.y = rotated_y
-        error_point.point.z = self.cur_pose.pose.position.z 
-
-        self.rotated_error_pub.publish(error_point)
+            self.rotated_error_pub.publish(error_point)
 
 def main(args=None):
     rclpy.init(args=args)

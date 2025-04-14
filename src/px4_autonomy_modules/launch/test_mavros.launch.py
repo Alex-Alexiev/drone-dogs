@@ -115,7 +115,7 @@ def generate_launch_description():
         ),
         Node(
             package="px4_autonomy_modules",
-            executable="car_tracker.py",
+            executable="car_chase.py",
             name="rob498_drone_07", #{LaunchConfiguration('drone_num')}",
             parameters=[
                 {"drone_num" : LaunchConfiguration('drone_num')}

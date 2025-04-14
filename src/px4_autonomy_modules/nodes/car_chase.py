@@ -45,7 +45,7 @@ class CommNode(Node):
         self.rotated_error_pub = self.create_publisher(PointStamped, 'rotated_error_point', 10)
         # Subscribers for the drone's current pose and detection messages
         self.pose_sub = self.create_subscription(
-            Odometry,
+            PoseStamped,
             'mavros/local_position/odom',
             self.pose_callback,
             10)
@@ -63,11 +63,7 @@ class CommNode(Node):
         self.srv_launch = self.create_service(Trigger, 'rob498_drone_7/comm/launch', self.callback_launch)
 
     def pose_callback(self, msg):
-        # Convert Odometry to PoseStamped for consistency
-        pose_stamped = PoseStamped()
-        pose_stamped.header = msg.header
-        pose_stamped.pose = msg.pose.pose
-        self.cur_pose = pose_stamped
+        self.cur_pose = msg
 
     def detection_callback(self, msg):
         self.get_logger().info(f"Detection received: x_center={msg.x_center}, y_center={msg.y_center}")

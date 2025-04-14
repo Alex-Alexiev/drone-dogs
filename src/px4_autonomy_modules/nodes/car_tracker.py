@@ -5,7 +5,6 @@ from std_srvs.srv import Empty, Trigger
 from std_msgs.msg import String
 from geometry_msgs.msg import PoseStamped, TwistStamped
 from perception_msgs.msg import Detection
-from nav_msgs.msg import Odometry
 from copy import deepcopy 
 import numpy as np
 import math
@@ -77,7 +76,7 @@ class CommNode(Node):
         
         # Subscribers and Publishers
         self.mavros_pose_sub = self.create_subscription(
-            Odometry,
+            PoseStamped,
             'mavros/local_position/odom', 
             self.callback_mavros_pose,
             rclpy.qos.qos_profile_system_default

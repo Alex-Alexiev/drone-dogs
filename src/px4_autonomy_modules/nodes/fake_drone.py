@@ -3,7 +3,6 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped, TwistStamped
-from nav_msgs.msg import Odometry
 from rclpy.time import Time
 import math
 
@@ -29,7 +28,7 @@ class FakeDrone(Node):
          
         # Publisher to the mavros/local_position/odom topic
         self.publisher = self.create_publisher(
-            Odometry,
+            PoseStamped,
             'mavros/local_position/odom',
             rclpy.qos.qos_profile_system_default
         )
@@ -51,16 +50,15 @@ class FakeDrone(Node):
     def update_position(self):
         if self.target_pose is None:
             # Publish an initial pose if no target is set
-            initial_pose = Odometry()
+            initial_pose = PoseStamped()
             initial_pose.header.frame_id = 'map'
-            initial_pose.child_frame_id = 'base_link'  # Add child frame ID for compatibility
-            initial_pose.pose.pose.position.x = 0.0
-            initial_pose.pose.pose.position.y = 0.0
-            initial_pose.pose.pose.position.z = 0.0
-            initial_pose.pose.pose.orientation.x = 0.0
-            initial_pose.pose.pose.orientation.y = 0.0
-            initial_pose.pose.pose.orientation.z = 0.0
-            initial_pose.pose.pose.orientation.w = 1.0  # No rotation
+            initial_pose.pose.position.x = 0.0
+            initial_pose.pose.position.y = 0.0
+            initial_pose.pose.position.z = 0.0
+            initial_pose.pose.orientation.x = 0.0
+            initial_pose.pose.orientation.y = 0.0
+            initial_pose.pose.orientation.z = 0.0
+            initial_pose.pose.orientation.w = 1.0  # No rotation
             initial_pose.header.stamp = self.get_clock().now().to_msg()
             
             self.publisher.publish(initial_pose)
@@ -86,7 +84,7 @@ class FakeDrone(Node):
                 self.current_pose.pose.position.x += self.target_velocity.twist.linear.x * dt
                 self.current_pose.pose.position.y += self.target_velocity.twist.linear.y * dt
                 self.current_pose.pose.position.z += self.target_velocity.twist.linear.z * dt
-                self.publish_odom()
+                self.publish_pose()
                 return
 
         # Calculate the distance to the target
@@ -100,7 +98,7 @@ class FakeDrone(Node):
             self.current_pose.pose.position.x = self.target_pose.pose.position.x
             self.current_pose.pose.position.y = self.target_pose.pose.position.y
             self.current_pose.pose.position.z = self.target_pose.pose.position.z
-            self.publish_odom()
+            self.publish_pose()
             return
 
         # Calculate the direction vector
@@ -114,20 +112,14 @@ class FakeDrone(Node):
         self.current_pose.pose.position.y += direction_y * move_distance
         self.current_pose.pose.position.z += direction_z * move_distance
 
-        # Publish the updated odometry
-        self.publish_odom()
+        # Publish the updated pose
+        self.publish_pose()
 
-    def publish_odom(self):
-        # Create and populate the Odometry message
-        odom_msg = Odometry()
-        odom_msg.header = self.current_pose.header
-        odom_msg.header.stamp = self.get_clock().now().to_msg()
-        odom_msg.header.frame_id = 'map'  # Set frame ID to 'map'
-        odom_msg.child_frame_id = 'base_link'  # Add child frame ID for compatibility
-        odom_msg.pose.pose = self.current_pose.pose
-        
-        # Publish the Odometry message
-        self.publisher.publish(odom_msg)
+    def publish_pose(self):      
+        # Publish the pose stamped message
+        self.current_pose.header.stamp = self.get_clock().now().to_msg()
+        self.current_pose.header.frame_id = 'map'
+        self.publisher.publish(self.current_pose)
 
 def main(args=None):
     rclpy.init(args=args)

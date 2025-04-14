@@ -35,7 +35,7 @@ class CommNode(Node):
         
         # Subscribers and Publishers
         self.mavros_pose_sub = self.create_subscription(
-            Odometry, # TODO: This might be Odom for second part
+            PoseStamped, # TODO: This might be Odom for second part
             # '/mavros/vision_pose/pose', # TODO: Change this to mavros/local_position/odom for second part of fe_3
             'mavros/local_position/odom', 
             self.callback_mavros_pose,
@@ -149,12 +149,12 @@ class CommNode(Node):
         self.navigate_to_next_waypoint()
     
     def callback_mavros_pose(self, msg):
-        # self.cur_pose = msg
-        self.cur_pose = PoseStamped()
-        self.cur_pose.pose = msg.pose.pose
-        self.cur_pose.header = msg.header
+        self.cur_pose = msg
+        # self.cur_pose = PoseStamped()
+        # self.cur_pose.pose = msg.pose.pose
+        # self.cur_pose.header = msg.header
 
-        pose = msg.pose.pose
+        pose = msg.pose
         self.get_logger().debug(f"Received Pose - Position: ({pose.position.x}, {pose.position.y}, {pose.position.z})")
         
         # Check if we're in navigation mode and need to update waypoints

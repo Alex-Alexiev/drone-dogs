@@ -17,20 +17,15 @@ class FakeVicon(Node):
         
         # Subscriber to the MAVROS odometry topic
         self.mavros_pose_sub = self.create_subscription(
-            Odometry,
+            PoseStamped,
             'mavros/local_position/odom', 
             self.callback_mavros_pose,
             rclpy.qos.qos_profile_system_default
         )
 
-    def callback_mavros_pose(self, msg: Odometry):
-        # Convert Odometry to PoseStamped
-        pose_stamped = PoseStamped()
-        pose_stamped.header = msg.header
-        pose_stamped.pose = msg.pose.pose
-        
-        # Publish the PoseStamped message
-        self.publisher.publish(pose_stamped)
+    def callback_mavros_pose(self, msg: Odometry):      
+        # Republish the PoseStamped message
+        self.publisher.publish(msg)
 
 def main(args=None):
     rclpy.init(args=args)

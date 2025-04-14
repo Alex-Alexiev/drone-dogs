@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-from geometry_msgs.msg import TransformStamped
+from geometry_msgs.msg import PoseStamped, TransformStamped
 import rclpy
 from rclpy.node import Node
 
 from tf2_ros import TransformBroadcaster
-
-from nav_msgs.msg import Odometry
 
 class FramePublisher(Node):
 
@@ -16,7 +14,7 @@ class FramePublisher(Node):
         self.tf_broadcaster = TransformBroadcaster(self)
 
         self.mavros_pose_sub = self.create_subscription(
-            Odometry,
+            PoseStamped,
             'mavros/local_position/odom', 
             self.callback_mavros_pose,
             rclpy.qos.qos_profile_system_default
@@ -29,16 +27,16 @@ class FramePublisher(Node):
         # corresponding tf variables
         t.header.stamp = msg.header.stamp
         t.header.frame_id = msg.header.frame_id # map
-        t.child_frame_id = msg.child_frame_id # base_link
+        t.child_frame_id = 'base_link'
 
-        t.transform.translation.x = msg.pose.pose.position.x
-        t.transform.translation.y = msg.pose.pose.position.y
-        t.transform.translation.z = msg.pose.pose.position.z
+        t.transform.translation.x = msg.pose.position.x
+        t.transform.translation.y = msg.pose.position.y
+        t.transform.translation.z = msg.pose.position.z
 
-        t.transform.rotation.x = msg.pose.pose.orientation.x
-        t.transform.rotation.y = msg.pose.pose.orientation.y
-        t.transform.rotation.z = msg.pose.pose.orientation.z
-        t.transform.rotation.w = msg.pose.pose.orientation.w
+        t.transform.rotation.x = msg.pose.orientation.x
+        t.transform.rotation.y = msg.pose.orientation.y
+        t.transform.rotation.z = msg.pose.orientation.z
+        t.transform.rotation.w = msg.pose.orientation.w
 
         # Send the transformation
         self.tf_broadcaster.sendTransform(t)

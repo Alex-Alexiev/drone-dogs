@@ -77,6 +77,16 @@ install (
 )
 
 install (
+  PROGRAMS nodes/car_tracker_pos_ctrl.py
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
+install (
+  PROGRAMS nodes/car_chase_state_pub.py
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
+install (
   PROGRAMS nodes/fake_car.py
   DESTINATION lib/${PROJECT_NAME}/
 )

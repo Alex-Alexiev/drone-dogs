@@ -84,4 +84,43 @@ def generate_launch_description():
 #            output="screen",
             parameters=[]  # Add any parameters if needed
         ),
+        Node(
+            package="px4_autonomy_modules",  # Replace with the actual package name containing your script
+            executable="perception_node.py",
+            name="perception_node",
+            parameters=[]
+        ),
+        Node(
+            package="px4_autonomy_modules",
+            executable="car_pose_publisher.py",
+            name="car_pose_publisher",
+#            output="screen",
+            parameters=[]  # Add any parameters if needed
+        ),
+        Node(
+            package="px4_autonomy_modules",
+            executable="car_chase.py",
+            name=f"rob498_drone_07",
+        ),
+        Node(
+            package="px4_autonomy_modules",
+            executable="tf2_frame_publisher.py",
+            name=f"tf2_frame_publisher",
+            parameters=[]
+        ),
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            arguments = ['0.0102', '0', '0.1064', '0', '1.57', '0', 'base_link', 'odom_frame'] # Realsense camera
+        ),
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            arguments = ['0', '0', '0', '0', '0', '3.14', 'base_link', 'camera_orientation'] # IMX219 camera
+        ),
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            arguments = ['0.0522', '-0.0341', '-0.0962', '0.0', '0.0', '3.14', 'base_link', 'camera_frame'] # IMX219 camera
+        ),
     ])

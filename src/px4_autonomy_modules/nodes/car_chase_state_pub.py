@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from nav_msgs.msg import Odometry
+from std_msgs.msg import String
 from geometry_msgs.msg import PoseStamped, PointStamped
 from perception_msgs.msg import Detection
 from std_srvs.srv import Trigger
@@ -48,8 +48,8 @@ class CommNode(Node):
         # Subscribers for the drone's current pose and detection messages
         self.pose_sub = self.create_subscription(
             PoseStamped,
-            # 'mavros/local_position/odom',
-            '/mavros/vision_pose/pose',
+            'mavros/local_position/odom',
+            # '/mavros/vision_pose/pose',
             self.pose_callback,
             10)
 
@@ -61,6 +61,8 @@ class CommNode(Node):
 
         # Timer to run the state machine at a fixed rate
         self.timer = self.create_timer(1.0 / STATE_UPDATE_FREQ, self.timer_callback)
+        
+        self.state_pub = self.create_publisher(String, f'rob498_drone_7/state', 10)  
 
         # Service to handle the launch command
         self.srv_launch = self.create_service(Trigger, 'rob498_drone_7/comm/launch', self.callback_launch)
@@ -120,6 +122,7 @@ class CommNode(Node):
         
 
     def timer_callback(self):
+        self.state_pub.publish(String(data=self.state))
         # In launch mode, repeatedly publish the launch setpoint
         if self.state == LAUNCH_STATE or self.state == LAND_STATE:
             if self.desired_pose is not None:

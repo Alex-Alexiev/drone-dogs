@@ -17,9 +17,9 @@ CHASE_STATE = "Chase"
 ESCAPED_BOUNDS_STATE = "EscapedBounds"
 LAND_STATE = "Land"
 ABORT_STATE = "Abort"
-LOST_CAR_TIMEOUT = 2 # seconds
+LOST_CAR_TIMEOUT = 5 # seconds
 
-VEL_PUB_FREQ = 10 # Hz
+POSE_PUB_FREQ = 10 # Hz
 STATE_UPDATE_FREQ = 10 # Hz
 
 # Operating area
@@ -98,7 +98,6 @@ class CommNode(Node):
         self.state_pub = self.create_publisher(String, f'rob498_drone_{drone_num}/state', 10)  
         
         self.mavros_pose_pub = self.create_publisher(PoseStamped, 'mavros/setpoint_position/local', 10)
-        self.mavros_velocity_pub = self.create_publisher(TwistStamped, 'mavros/setpoint_velocity/cmd_vel', 10)
         
         # Services
         self.srv_launch = self.create_service(Trigger, f'rob498_drone_{drone_num}/comm/launch', self.callback_launch)
@@ -319,32 +318,45 @@ class CommNode(Node):
         car_px_dist_x = car_px_dist_x * np.cos(np.radians(180.0)) - car_px_dist_y * np.sin(np.radians(180.0))
         car_px_dist_y = car_px_dist_x * np.sin(np.radians(180.0)) + car_px_dist_y * np.cos(np.radians(180.0))
         
-        velocity_control = TwistStamped()
-        velocity_control.header = self.cur_pose.header
-        velocity_control.header.stamp = self.get_clock().now().to_msg()
+        pose_control = deepcopy(self.cur_pose)
+        pose_control.header.stamp = self.get_clock().now().to_msg()
         # Calculate the velocity control
         if self.cur_detected_car_position is not None:
             # PID control
             # if self.last_car_px_dist_x is not None and self.last_car_px_dist_y is not None:
             #     Calculate the derivative term
-            #     derivative_x = (car_px_dist_x - self.last_car_px_dist_x) * VEL_PUB_FREQ
-            #     derivative_y = (car_px_dist_y - self.last_car_px_dist_y) * VEL_PUB_FREQ
+            #     derivative_x = (car_px_dist_x - self.last_car_px_dist_x) * POSE_PUB_FREQ
+            #     derivative_y = (car_px_dist_y - self.last_car_px_dist_y) * POSE_PUB_FREQ
             # else:
             #     derivative_x = 0.0
             #     derivative_y = 0.0
                 
             # Calculate the integral term
-            # self.integral_term_x += car_px_dist_x * VEL_PUB_FREQ
-            # self.integral_term_y += car_px_dist_y * VEL_PUB_FREQ
-            velocity_control.twist.linear.x = -VELOCITY_CONTROL_P * car_px_dist_x # + VELOCITY_CONTROL_I * self.integral_term_x + VELOCITY_CONTROL_D * derivative_x
-            velocity_control.twist.linear.y = VELOCITY_CONTROL_P * car_px_dist_y # + VELOCITY_CONTROL_I * self.integral_term_y + VELOCITY_CONTROL_D * derivative_y
+            # self.integral_term_x += car_px_dist_x * POSE_PUB_FREQ
+            # self.integral_term_y += car_px_dist_y * POSE_PUB_FREQ
+            pose_control.pose.position.x = -VELOCITY_CONTROL_P * car_px_dist_x # + VELOCITY_CONTROL_I * self.integral_term_x + VELOCITY_CONTROL_D * derivative_x
+            pose_control.pose.position.y = VELOCITY_CONTROL_P * car_px_dist_y # + VELOCITY_CONTROL_I * self.integral_term_y + VELOCITY_CONTROL_D * derivative_y
 
-            velocity_control.twist.linear.z = 0.0
-            velocity_control.twist.angular.x = 0.0
-            velocity_control.twist.angular.y = 0.0
-            velocity_control.twist.angular.z = 0.0
-            self.get_logger().info(f"Desired velocity: x: ({velocity_control.twist.linear.x}, y: {velocity_control.twist.linear.y})")
-            self.mavros_velocity_pub.publish(velocity_control)
+            self.get_logger().info(f"Chase setpoint: x={pose_control.pose.position.x:.3f}, y={pose_control.pose.position.y:.3f}")
+            
+            # Check bounds
+            if pose_control.pose.position.x > SAFE_X_MAX:
+                self.get_logger().info("Drone above SAFE_X_MAX. Setting x to SAFE_X_MAX.")
+                pose_control.pose.position.x = SAFE_X_MAX
+            elif pose_control.pose.position.x < SAFE_X_MIN:
+                self.get_logger().info("Drone below SAFE_X_MIN. Setting x to SAFE_X_MIN.")
+                pose_control.pose.position.x = SAFE_X_MIN
+            if pose_control.pose.position.y > SAFE_Y_MAX:
+                self.get_logger().info("Drone above SAFE_Y_MAX. Setting y to SAFE_Y_MAX.")
+                pose_control.pose.position.y = SAFE_Y_MAX
+            elif pose_control.pose.position.y < SAFE_Y_MIN:
+                self.get_logger().info("Drone below SAFE_Y_MIN. Setting y to SAFE_Y_MIN.")
+                pose_control.pose.position.y = SAFE_Y_MIN
+            if pose_control.pose.position.z > SAFE_Z_MAX:
+                self.get_logger().info("Drone is too high. Setting z to SAFE_Z_MAX.")   
+                pose_control.pose.position.z = TARGET_Z
+            pose_control.pose.position.z = TARGET_Z
+            self.mavros_pose_pub.publish(pose_control)
             
         self.last_car_px_dist_x = car_px_dist_x
         self.last_car_px_dist_y = car_px_dist_y   

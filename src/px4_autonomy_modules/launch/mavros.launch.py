@@ -97,14 +97,11 @@ def generate_launch_description():
             name="perception_node",
             parameters=[]
         ),
-        # Node(
-        #     package="px4_autonomy_modules",
-        #     executable="fe_3.py",
-        #     name=f"rob498_drone_07", #{LaunchConfiguration('drone_num')}",
-        #     parameters=[
-        #         {"drone_num" : LaunchConfiguration('drone_num')}
-        #     ]
-        # ),
+        Node(
+            package="px4_autonomy_modules",
+            executable="car_chase.py",
+            name=f"rob498_drone_07",
+        ),
         Node(
             package="px4_autonomy_modules",
             executable="tf2_frame_publisher.py",

@@ -48,8 +48,8 @@ class CommNode(Node):
         # Subscribers for the drone's current pose and detection messages
         self.pose_sub = self.create_subscription(
             PoseStamped,
-            'mavros/local_position/odom',
-            # '/mavros/vision_pose/pose',
+            # 'mavros/local_position/odom',
+            '/mavros/vision_pose/pose',
             self.pose_callback,
             10)
 

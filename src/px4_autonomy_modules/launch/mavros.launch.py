@@ -97,14 +97,14 @@ def generate_launch_description():
             name="perception_node",
             parameters=[]
         ),
-        Node(
-            package="px4_autonomy_modules",
-            executable="fe_3.py",
-            name=f"rob498_drone_07", #{LaunchConfiguration('drone_num')}",
-            parameters=[
-                {"drone_num" : LaunchConfiguration('drone_num')}
-            ]
-        ),
+        # Node(
+        #     package="px4_autonomy_modules",
+        #     executable="fe_3.py",
+        #     name=f"rob498_drone_07", #{LaunchConfiguration('drone_num')}",
+        #     parameters=[
+        #         {"drone_num" : LaunchConfiguration('drone_num')}
+        #     ]
+        # ),
         Node(
             package="px4_autonomy_modules",
             executable="tf2_frame_publisher.py",
@@ -114,6 +114,16 @@ def generate_launch_description():
         Node(
             package='tf2_ros',
             executable='static_transform_publisher',
-            arguments = ['0.0102', '0', '0.1064', '0', '90', '0', 'base_link', 'odom_frame'] # Realsense camera
+            arguments = ['0.0102', '0', '0.1064', '0', '1.57', '0', 'base_link', 'odom_frame'] # Realsense camera
+        ),
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            arguments = ['0', '0', '0', '0', '0', '3.14', 'base_link', 'camera_orientation'] # IMX219 camera
+        ),
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            arguments = ['0.0522', '-0.0341', '-0.0962', '0.0', '0.0', '3.14', 'base_link', 'camera_frame'] # IMX219 camera
         ),
     ])

@@ -15,16 +15,19 @@ class FakeVicon(Node):
             10
         )
         
-        # Subscriber to the MAVROS odometry topic
-        self.mavros_pose_sub = self.create_subscription(
-            PoseStamped,
-            'mavros/local_position/odom', 
-            self.callback_mavros_pose,
-            rclpy.qos.qos_profile_system_default
-        )
+        self.timer = self.create_timer(1.0 / 50, self.timer_callback)
 
-    def callback_mavros_pose(self, msg: PoseStamped):
+    def timer_callback(self):
         # Republish the PoseStamped message
+        msg = PoseStamped()
+        msg.pose.position.x = 0.0
+        msg.pose.position.y = 0.0
+        msg.pose.position.z = 0.0
+        msg.pose.orientation.x = 0.0
+        msg.pose.orientation.y = 0.0
+        msg.pose.orientation.z = 0.0
+        msg.pose.orientation.w = 1.0
+
         self.publisher.publish(msg)
 
 def main(args=None):

@@ -57,6 +57,11 @@ install (
 )
 
 install (
+  PROGRAMS nodes/fake_vicon_zero.py
+  DESTINATION lib/${PROJECT_NAME}/
+)
+
+install (
   PROGRAMS nodes/fake_drone.py
   DESTINATION lib/${PROJECT_NAME}/
 )

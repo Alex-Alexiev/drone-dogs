@@ -17,7 +17,7 @@ CHASE_STATE = "Chase"
 ESCAPED_BOUNDS_STATE = "EscapedBounds"
 LAND_STATE = "Land"
 ABORT_STATE = "Abort"
-LOST_CAR_TIMEOUT = 5 # seconds
+LOST_CAR_TIMEOUT = 2 # seconds
 
 VEL_PUB_FREQ = 10 # Hz
 STATE_UPDATE_FREQ = 10 # Hz

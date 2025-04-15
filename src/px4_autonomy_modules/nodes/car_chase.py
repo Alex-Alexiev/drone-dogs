@@ -9,10 +9,10 @@ from copy import deepcopy
 import numpy as np
 
 # Constants for position control and state management
-LOST_CAR_TIMEOUT = 5.0          # seconds
+LOST_CAR_TIMEOUT = 2.0          # seconds
 CAMERA_CENTER_X = 1280.0 / 2.0    # Camera image center x
 CAMERA_CENTER_Y = 720.0 / 2.0     # Camera image center y
-POSITION_CONTROL_STEP = 1e-3      # Gain to scale the delta pose step
+POSITION_CONTROL_STEP = 2e-3      # Gain to scale the delta pose step
 STATE_UPDATE_FREQ = 10          # Hz
 TARGET_Z = 2.5                  # Launch altitude
 
@@ -46,7 +46,8 @@ class CommNode(Node):
         # Subscribers for the drone's current pose and detection messages
         self.pose_sub = self.create_subscription(
             PoseStamped,
-            'mavros/local_position/odom',
+            # 'mavros/local_position/odom',
+            '/mavros/vision_pose/pose',
             self.pose_callback,
             10)
 
@@ -149,6 +150,8 @@ class CommNode(Node):
             new_pose.pose.position.y += POSITION_CONTROL_STEP * car_px_dist_y
 
             new_pose.header.stamp = self.get_clock().now().to_msg()
+            self.get_logger().info(f"Cur pose: {self.cur_pose.pose.position}")
+            self.get_logger().info(f"Pixel Distance: x={car_px_dist_x}, y={car_px_dist_y}")
             self.get_logger().info(f"Chase setpoint: x={new_pose.pose.position.x:.3f}, y={new_pose.pose.position.y:.3f}")
             
             if new_pose.pose.position.x > SAFE_X_MAX:

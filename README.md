@@ -1,10 +1,10 @@
 # 🚁 Police Chase Drone - ROB498 Capstone Project
 
-![Project Banner](readme_images/banner.jpg)
+![Drone Photo](readme_images/drone_photo.jpg)
 
 ## Overview
 
-![Drone Photo](readme_images/drone_photo.jpg)
+![Project Banner](readme_images/drone_in_action.gif)
 
 This repository contains the final implementation and documentation for our **ROB498 Capstone Design Project** as part of the **Robotics Engineering** undergraduate program at the **University of Toronto**.
 

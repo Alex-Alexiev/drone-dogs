@@ -4,6 +4,8 @@
 
 ## Overview
 
+![Drone Photo](readme_images/drone_photo.jpg)
+
 This repository contains the final implementation and documentation for our **ROB498 Capstone Design Project** as part of the **Robotics Engineering** undergraduate program at the **University of Toronto**.
 
 Our project, **Police Chase Drone**, showcases the design and development of an autonomous drone system capable of pursuing a dynamic ground target. Leveraging ROS 2 and onboard computation, the drone tracks and follows a "getaway car" through a series of waypoints and behaviors designed to mimic a pursuit scenario.

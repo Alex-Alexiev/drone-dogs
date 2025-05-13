@@ -88,7 +88,7 @@ Supervised as part of the **ROB498 Capstone Design Project** at the **University
 ## Acknowledgments
 
 We thank Professor Waslander and the teaching assistants staff for their guidance and support throughout this project, as well as the sample code [found here](https://github.com/utiasSTARS/ROB498-flight).
-Special thanks to [dusty-nv](https://github.com/dusty-nv) for the [Jetson Inference](https://github.com/dusty-nv/jetson-inference) and [ROS Deep Learning](https://github.com/dusty-nv/jetson-utils](https://github.com/dusty-nv/ros_deep_learning) repositories, which provided invaluable resources for our computer vision tasks.
+Special thanks to [dusty-nv](https://github.com/dusty-nv) for the [Jetson Inference](https://github.com/dusty-nv/jetson-inference) and [ROS Deep Learning](https://github.com/dusty-nv/ros_deep_learning) repositories, which provided invaluable resources for our computer vision tasks.
 
 ## License
 

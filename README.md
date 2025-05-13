@@ -42,12 +42,17 @@ And here is it in action in the simulation:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/uoft-robotics/police-chase-drone.git
-cd police-chase-drone
+git clone https://github.com/Alex-Alexiev/drone-dogs.git
+cd src
 ```
 
 2. Build the workspace:
 ```bash
+cd perception_msgs
+colcon build
+source install/setup.bash
+
+cd ../px4_autonomy_modules
 colcon build
 source install/setup.bash
 ```

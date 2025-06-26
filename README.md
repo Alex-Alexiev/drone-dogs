@@ -43,23 +43,56 @@ And here is it in action in the simulation:
 1. Clone the repository:
 ```bash
 git clone https://github.com/Alex-Alexiev/drone-dogs.git
-cd src
 ```
 
-2. Build the workspace:
+2. Make dependancy folder:
 ```bash
-cd perception_msgs
-colcon build
-source install/setup.bash
+mkdir -p drone_deps/src
+```
 
-cd ../px4_autonomy_modules
-colcon build
+3. Install jetson-inference:
+```bash
+cd ~/drone_deps/src
+sudo apt-get install git cmake
+git clone --recursive --depth=1 https://github.com/dusty-nv/jetson-inference && cd jetson-inference
+mkdir build && cd build
+cmake ../
+make -j$(nproc)
+sudo make install
+sudo ldconfig
+```
+
+4. Install vision_msgs:
+```bash
+cd ~/drone_deps/src
+git clone https://github.com/ros-perception/vision_msgs.git -b foxy
+cd ~/drone_deps
+colcon build --packages-select vision_msgs
+export CMAKE_PREFIX_PATH=~/drone_deps/install:/opt/ros/foxy
+```
+
+5. Install ros_deep_learning: 
+```bash
+cd ~/drone_deps/src
+git clone https://github.com/dusty-nv/ros_deep_learning
+
+cd ~/drone_deps/src/ros_deep_learning && mkdir build && cd build
+cmake .. -DCMAKE_PREFIX_PATH=~/drone_deps/install:/opt/ros/foxy -DVPI_DIR=/usr/share/vpi1/cmake
+make -j$(nproc)
+
+cd ~/drone_deps
+colcon build --packages-select ros_deep_learning
+```
+
+6. 
+```bash
 source install/setup.bash
 ```
 
 ## Usage
+From the `drone-dogs` repository:
 
-To launch the Rviz2 'simulation' environment:
+Launch the Rviz2 'simulation' environment:
 ```bash
 ./test.sh
 ```
@@ -67,6 +100,16 @@ To launch the Rviz2 'simulation' environment:
 For hardware-in-the-loop testing:
 ```bash
 ./run.sh
+```
+
+Launch video source:
+```bash
+ros2 launch ros_deep_learning video_source.ros2.launch
+```
+
+Launch detectnet:
+```bash
+ros2 launch ros_deep_learning detectnet.ros2.launch output:=display://0 model_path:=/home/jetson/ros2_ws/src/px4_autonomy_modules/models/ssd-mobilenet-apr7.onnx input_blob:=input_0 output_cvg:=scores output_bbox:=boxes threshold:=0.2 class_labels_path:=/home/jetson/ros2_ws/src/px4_autonomy_modules/models/labels.txt image_height:=180 image_width:=320
 ```
 
 ## Hardware Used
